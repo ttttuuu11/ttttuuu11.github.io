@@ -46,6 +46,14 @@ public class SampleDAO extends AbstractDAO {
 		log.debug("map은 ???:"+map);
 		return (List<Map<String, Object>>) selectList("sample.selectSidebarListChild", map);
 	}	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> infiniteScrollDown(Integer map) throws Exception {
+		return (List<Map<String, Object>>) selectList("sample.infiniteScrollDown", map);
+	}
+	
+	
+	
+	
 	public void insertCategory(Map<String, Object> map) throws Exception {
 		insert("sample.insertCategory", map);
 	}

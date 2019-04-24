@@ -6,7 +6,7 @@
 	</select>
 	<select id="selectBoardListAll" parameterType="hashmap"
 		resultType="hashmap"> 
-		<![CDATA[ SELECT IDX,CONTENTS, TITLE, HIT_CNT, CREA_DTM FROM TB_BOARD WHERE DEL_GB = 'N' and CATEGORY_IDX=#{CATEGORY_IDX} ORDER BY IDX DESC]]>
+		<![CDATA[ SELECT IDX,CONTENTS, TITLE, HIT_CNT, CREA_DTM FROM TB_BOARD WHERE DEL_GB = 'N' and CATEGORY_IDX=#{CATEGORY_IDX} ORDER BY IDX DESC limit 0,20]]>
 	</select>
 	<select id="selectBoardListSearch" parameterType="hashmap"
 		resultType="hashmap"> 
@@ -32,8 +32,14 @@
 		resultType="hashmap"> 
 		<![CDATA[ SELECT CATEGORY_NAME ,CATEGORY_IDX FROM category WHERE P_CATEGORY_IDX = #{map}]]>
 	</select>
+	<select id="infiniteScrollDown"
+		resultType="hashmap"> 
+		<![CDATA[ SELECT IDX,CONTENTS, TITLE, HIT_CNT, CREA_DTM FROM TB_BOARD WHERE DEL_GB = 'N' and CATEGORY_IDX=#{CATEGORY_IDX} and IDX <= #{bnoToStrat} and IDX >= 0 ORDER BY IDX DESC limit 0,1]]>
+	</select>
+	
+	
 	<insert id="insertBoard" parameterType="hashmap"> 
-		<![CDATA[ INSERT INTO TB_BOARD (  TITLE, CONTENTS, HIT_CNT, DEL_GB, CREA_DTM, CREA_ID ) VALUES (  #{TITLE}, #{CONTENTS}, 0, 'N', SYSDATE(), 'Admin' ) ]]>
+		<![CDATA[ INSERT INTO TB_BOARD (  TITLE, CONTENTS, HIT_CNT, DEL_GB, CREA_DTM, CREA_ID, CATEGORY_IDX ) VALUES (  #{TITLE}, #{CONTENTS}, 0, 'N', SYSDATE(), 'Admin',#{CATEGORY_IDX} ) ]]>
 	</insert>
 	<insert id="insertStudyBoard" parameterType="hashmap"> 
 		<![CDATA[ INSERT INTO study_board (  TITLE, CONTENT, CREATE_DATE ) VALUES (  #{mTitle}, #{mContent}, SYSDATE() ) ]]>

@@ -91,4 +91,10 @@ public class SampleServiceImpl implements SampleService {
 		sampleDAO.insertCategory(map);
 	}
 
+	@Override
+	public List<Map<String, Object>> infiniteScrollDown(Integer map) throws Exception {
+
+		return sampleDAO.infiniteScrollDown(map);
+	}
+
 }

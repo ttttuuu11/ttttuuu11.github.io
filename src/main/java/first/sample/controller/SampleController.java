@@ -19,9 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -89,7 +91,7 @@ public class SampleController {
 
 	// 카테고리 별 게시글 리스트
 	@RequestMapping(value = "/sample/viewList.do")
-	public ModelAndView viewList(Map<String, Object> commandMap, @RequestParam("CATEGORY_IDX") Object CATEGORY_IDX)
+	public ModelAndView viewList(Map<String, Object> commandMap, @RequestParam("c") Object CATEGORY_IDX)
 			throws Exception {
 		// log.debug("--------------카테고고고고고고리"+CATEGORY_IDX);
 		ModelAndView mv = new ModelAndView("/sample/viewList");
@@ -238,6 +240,19 @@ public class SampleController {
 		return mv;
 	}
 
+	@RequestMapping(value = "/sample/infiniteScrollDown.do", method=RequestMethod.POST)
+	public @ResponseBody List<Map<String, Object>> infiniteScrollDownPost(@RequestBody Map<String,Object> commandMap) throws Exception {
+		Integer bnoToStrat = (Integer.parseInt((String) commandMap.get("bno")))+1;
+	
+		log.debug("새롭게 시작될 인덱스 ::"+bnoToStrat.toString());
+		log.debug("카테고리 인덱스:"+(String) commandMap.get("CATEGORY_IDX"));
+		List<Map<String,Object>> listAll = sampleService.infiniteScrollDown(bnoToStrat);
+		
+		log.debug("새로운 페이지!!"+listAll);
+		
+		return listAll;
+	}
+	
 	@RequestMapping(value = "/sample/imageUpload.do", method = RequestMethod.POST)
 	public void communityImageUpload(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam MultipartFile upload) {
