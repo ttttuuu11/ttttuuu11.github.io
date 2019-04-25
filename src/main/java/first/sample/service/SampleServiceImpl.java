@@ -92,9 +92,15 @@ public class SampleServiceImpl implements SampleService {
 	}
 
 	@Override
-	public List<Map<String, Object>> infiniteScrollDown(Integer map) throws Exception {
+	public List<Map<String, Object>> infiniteScrollDown(Map<String,Object> map) throws Exception {
 
 		return sampleDAO.infiniteScrollDown(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> infiniteScrollUp(Map<String,Object> map) throws Exception {
+
+		return sampleDAO.infiniteScrollUp(map);
 	}
 
 }

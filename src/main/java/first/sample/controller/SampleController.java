@@ -242,11 +242,28 @@ public class SampleController {
 
 	@RequestMapping(value = "/sample/infiniteScrollDown.do", method=RequestMethod.POST)
 	public @ResponseBody List<Map<String, Object>> infiniteScrollDownPost(@RequestBody Map<String,Object> commandMap) throws Exception {
-		Integer bnoToStrat = (Integer.parseInt((String) commandMap.get("bno")))+1;
+		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))+1;
 	
-		log.debug("새롭게 시작될 인덱스 ::"+bnoToStrat.toString());
+		commandMap.put("bnoToStart",bnoToStart);
+		
+		log.debug("새롭게 시작될 인덱스 ::"+bnoToStart.toString());
 		log.debug("카테고리 인덱스:"+(String) commandMap.get("CATEGORY_IDX"));
-		List<Map<String,Object>> listAll = sampleService.infiniteScrollDown(bnoToStrat);
+		List<Map<String,Object>> listAll = sampleService.infiniteScrollDown(commandMap);
+		
+		log.debug("새로운 페이지!!"+listAll);
+		
+		return listAll;
+	}
+	
+	@RequestMapping(value = "/sample/infiniteScrollUp.do", method=RequestMethod.POST)
+	public @ResponseBody List<Map<String, Object>> infiniteScrollUpPost(@RequestBody Map<String,Object> commandMap) throws Exception {
+		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))-1;
+
+		commandMap.put("bnoToStart",bnoToStart);
+		
+		log.debug("새롭게 시작될 인덱스 ::"+bnoToStart.toString());
+		log.debug("카테고리 인덱스:"+(String) commandMap.get("CATEGORY_IDX"));
+		List<Map<String,Object>> listAll = sampleService.infiniteScrollUp(commandMap);
 		
 		log.debug("새로운 페이지!!"+listAll);
 		

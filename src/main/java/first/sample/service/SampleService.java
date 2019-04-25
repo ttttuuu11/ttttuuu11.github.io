@@ -20,7 +20,9 @@ public interface SampleService {
 	
 	List<Map<String, Object>> selectSidebarListChild(Object map) throws Exception;
 	
-	List<Map<String, Object>> infiniteScrollDown(Integer map) throws Exception;
+	List<Map<String, Object>> infiniteScrollDown(Map<String,Object> map) throws Exception;
+	
+	List<Map<String, Object>> infiniteScrollUp(Map<String,Object> map) throws Exception;
 	
 	void insertStudyBoard(Map<String, Object> map) throws Exception;
 	

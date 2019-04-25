@@ -77,7 +77,7 @@
 	});
 </script>
 
-	<input type="hidden" id="CATEGORY_IDX" value="${CATEGORY_IDX }">
+<input type="hidden" id="CATEGORY_IDX" value="${CATEGORY_IDX }">
 
 <script>
 	/*var result = '${msg}';
@@ -112,7 +112,8 @@
 								//      즉, 현재 뿌려진 게시글의 마지막 bno값을 읽어오는 것이다.( 이 다음의 게시글들을 가져오기 위해 필요한 데이터이다.)
 								var lastbno = $(".scrolling:last").attr(
 										"data-bno");
-								console.log("lastbno:"+lastbno);
+								console.log("lastbno:" + lastbno);
+								var cIdx = $("#CATEGORY_IDX").val()
 
 								// 4. ajax를 이용하여 현재 뿌려진 게시글의 마지막 bno를 서버로 보내어 그 다음 20개의 게시물 데이터를 받아온다.
 								$
@@ -125,13 +126,13 @@
 											},
 											dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
 											data : JSON.stringify({ // 서버로 보낼 데이터 명시
-												bno : lastbno
-												CATEGORY_IDX : $("#CATEGORY_IDX").val();
+												bno : lastbno,
+												CATEGORY_IDX : cIdx
 											}),
 											success : function(data) {// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
 												console.log(data);
 												var str = "";
-												var listLineCheck = '1';
+												console.log("data1" + this);
 												// 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
 												if (data != "") {
 													//6. 서버로부터 받아온 data가 list이므로 이 각각의 원소에 접근하려면 each문을 사용한다.
@@ -140,96 +141,51 @@
 																	// 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
 																	function() {
 																		console
-																				.log(this);
-																		if (listLineCheck
-																				.equlas('1')) {
-																			listLineCheck = '0';
-																			str += "<div class="+"'col-lg-6 mb-4'"+"><div" 
-																			+"class="+"'d-sm-flex align-items-center justify-content-between mb-4'"+">"
-																					+ "</div>"
-
-																					+ "<div class="+"'card shadow mb-4'"+">"
-																					+ "<div class="+"'card-header py-3'"+">"
-																					+ "<h6 class="+"'m-0 font-weight-bold text-primary'"+">"
-																					+ this.TITLE
-																					+ "<span"
+																				.log("data2"
+																						+ this);
+																		str += "<div class="+"'col-lg-6 mb-4'"+">"
+																				+ "<div class="+"'card shadow mb-4'"+">"
+																				+ "<div class="+"'card-header py-3'"+">"
+																				+ "<h6 class="+"'m-0 font-weight-bold text-primary'"+">"
+																				+ this.TITLE
+																				+ "<span"
 																							+"class="+"'text-danger'"+">["
-																					+ this.HIT_CNT
-																					+ "]</span>"
-																					+ "</h6>"
-																					+ "<input type="+"'hidden'"+" id="+"'IDX'"+" value="+this.IDX+">"
-																					+ "</div>"
-																					+ "<div class="+"'card-body'"+">"
-																					+ "<div class="+"'text-center'"+">"
-																					+ "<img class="+"'img-fluid px-3 px-sm-4 mt-3 mb-4'"
+																				+ this.HIT_CNT
+																				+ "]</span>"
+																				+ "</h6>"
+																				+ "<input type="+"'hidden'"+" id="+"'IDX'"+" value="+this.IDX+">"
+																				+ "</div>"
+																				+ "<div class="+"'card-body'"+">"
+																				+ "<div class="+"'text-center'"+">"
+																				+ "<img class="+"'img-fluid px-3 px-sm-4 mt-3 mb-4'"
 																							+"style="+"'width: 25rem;'"+"src="+"'img/undraw_posting_photo.svg'"
 																							+">"
-																					+ "</div>"
-																					+ "<p>"
-																					+ this.CONTENTS
-																					+ "</p>"
-																					+ "<a target="+"'_blank'"+"rel="+"'nofollow'"+"href="+"'https://undraw.co/'"+">더"
-																					+ "보러가기 &rarr;</a>"
-																					+ "<div class="+"'mt-4 text-center small'"+">"
-																					+ "<span class="+"'mr-2'"+"> <i"
+																				+ "</div>"
+																				+ "<p>"
+																				+ this.CONTENTS
+																				+ "</p>"
+																				+ "<a target="+"'_blank'"+"rel="+"'nofollow'"+"href="+"'https://undraw.co/'"+">더"
+																				+ "보러가기 &rarr;</a>"
+																				+ "<div class="+"'mt-4 text-center small'"+">"
+																				+ "<span class="+"'mr-2'"+"> <i"
 																							+"class="+"'fas fa-circle text-primary'"+"></i> Direct"
-																					+ "</span> <span class="+"'mr-2'"+"> <i"
+																				+ "</span> <span class="+"'mr-2'"+"> <i"
 																							+"class="+"'fas fa-circle text-success'"+"></i> Social"
-																					+ "</span> <span class="+"'mr-2'"+"> <i"
+																				+ "</span> <span class="+"'mr-2'"+"> <i"
 																							+"class="+"'fas fa-circle text-info'"+"></i> Referral"
-																					+ "</span>"
-																					+ "</div>"
-																					+ "</div>"
-																					+ "</div>"
-																					+ "</div>";
-																		} else {
-																			listLineCheck = '0';
-																			str += "<div class="+"'col-lg-6 mb-4'"+"><div" 
-																			+"class="+"'d-sm-flex align-items-center justify-content-between mb-4'"+">"
-																					+ "</div>"
-
-																					+ "<div class="+"'card shadow mb-4'"+">"
-																					+ "<div class="+"'card-header py-3'"+">"
-																					+ "<h6 class="+"'m-0 font-weight-bold text-primary'"+">"
-																					+ this.TITLE
-																					+ "<span"
-																							+"class="+"'text-danger'"+">["
-																					+ this.HIT_CNT
-																					+ "]</span>"
-																					+ "</h6>"
-																					+ "<input type="+"'hidden'"+" id="+"'IDX'"+" value="+this.IDX+">"
-																					+ "</div>"
-																					+ "<div class="+"'card-body'"+">"
-																					+ "<div class="+"'text-center'"+">"
-																					+ "<img class="+"'img-fluid px-3 px-sm-4 mt-3 mb-4'"
-																							+"style="+"'width: 25rem;'"+"src="+"'img/undraw_posting_photo.svg'"
-																							+">"
-																					+ "</div>"
-																					+ "<p>"
-																					+ this.CONTENTS
-																					+ "</p>"
-																					+ "<a target="+"'_blank'"+"rel="+"'nofollow'"+"href="+"'https://undraw.co/'"+">더"
-																					+ "보러가기 &rarr;</a>"
-																					+ "<div class="+"'mt-4 text-center small'"+">"
-																					+ "<span class="+"'mr-2'"+"> <i"
-																							+"class="+"'fas fa-circle text-primary'"+"></i> Direct"
-																					+ "</span> <span class="+"'mr-2'"+"> <i"
-																							+"class="+"'fas fa-circle text-success'"+"></i> Social"
-																					+ "</span> <span class="+"'mr-2'"+"> <i"
-																							+"class="+"'fas fa-circle text-info'"+"></i> Referral"
-																					+ "</span>"
-																					+ "</div>"
-																					+ "</div>"
-																					+ "</div>"
-																					+ "</div>";
-																		}
+																				+ "</span>"
+																				+ "</div>"
+																				+ "</div>"
+																				+ "</div>"
+																				+ "</div>";
 
 																	});// each
 													// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
-													$(".listToChange").empty();// 셀렉터 태그 안의 모든 텍스트를 지운다.                       
+													$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
 													$(".scrollLocation").after(
-															str);
-
+															"<div class="+"'row listToChange'"+">"
+																	+ str
+																	+ "</div>");
 												}// if : data!=null
 												else { // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..
 													alert("더 불러올 데이터가 없습니다.");
@@ -265,6 +221,8 @@
 
 								// 3. class가 scrolling인 것의 요소 중 첫 번째 요소를 선택한 다음 그것의 data-bno속성 값을 받아온다.
 								//      즉, 현재 뿌려진 게시글의 첫 번째 bno값을 읽어오는 것이다.( 이 전의 게시글들을 가져오기 위해 필요한 데이터이다.)
+								var cIdx = $("#CATEGORY_IDX").val()
+
 								var firstbno = $(".scrolling:first").attr(
 										"data-bno");
 
@@ -272,19 +230,20 @@
 								$
 										.ajax({
 											type : 'post', // 요청 method 방식
-											url : 'infiniteScrollUp',// 요청할 서버의 url
+											url : 'infiniteScrollUp.do',// 요청할 서버의 url
 											headers : {
 												"Content-Type" : "application/json",
 												"X-HTTP-Method-Override" : "POST"
 											},
 											dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
 											data : JSON.stringify({ // 서버로 보낼 데이터 명시
-												bno : firstbno
+												bno : firstbno,
+												CATEGORY_IDX : cIdx
 											}),
 											success : function(data) {// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
 
 												var str = "";
-
+												console.log("data1" + this);
 												// 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
 												// 이때 서버에서 값이 없으면 null을 던질줄 알았는데 ""를 던진다. 따라서 (data != null) 이라는 체크를 해주면 안되고, (data != "") 만 해주어야한다.
 												// 이건아마 컨트롤러의 리턴타입이 @ResponseBody로 json형태로 던져지는데 이때 아마 아무것도 없는게 ""로 명시되어 날아오는것 같다.
@@ -297,18 +256,16 @@
 																	// 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
 																	function() {
 																		console
-																				.log(this);
+																				.log("data2"
+																						+ this);
 
-																		str += "<div class="+"'col-lg-6 mb-4'"+"><div" 
-																		+"class="+"'d-sm-flex align-items-center justify-content-between mb-4'"+">"
-																				+ "</div>"
-
+																		str += "<div class="+"'col-lg-6 mb-4'"+">"
 																				+ "<div class="+"'card shadow mb-4'"+">"
 																				+ "<div class="+"'card-header py-3'"+">"
 																				+ "<h6 class="+"'m-0 font-weight-bold text-primary'"+">"
 																				+ this.TITLE
 																				+ "<span"
-																						+"class="+"'text-danger'"+">["
+																					+"class="+"'text-danger'"+">["
 																				+ this.HIT_CNT
 																				+ "]</span>"
 																				+ "</h6>"
@@ -317,8 +274,8 @@
 																				+ "<div class="+"'card-body'"+">"
 																				+ "<div class="+"'text-center'"+">"
 																				+ "<img class="+"'img-fluid px-3 px-sm-4 mt-3 mb-4'"
-																						+"style="+"'width: 25rem;'"+"src="+"'img/undraw_posting_photo.svg'"
-																						+">"
+																					+"style="+"'width: 25rem;'"+"src="+"'img/undraw_posting_photo.svg'"
+																					+">"
 																				+ "</div>"
 																				+ "<p>"
 																				+ this.CONTENTS
@@ -327,22 +284,23 @@
 																				+ "보러가기 &rarr;</a>"
 																				+ "<div class="+"'mt-4 text-center small'"+">"
 																				+ "<span class="+"'mr-2'"+"> <i"
-																						+"class="+"'fas fa-circle text-primary'"+"></i> Direct"
+																					+"class="+"'fas fa-circle text-primary'"+"></i> Direct"
 																				+ "</span> <span class="+"'mr-2'"+"> <i"
-																						+"class="+"'fas fa-circle text-success'"+"></i> Social"
+																					+"class="+"'fas fa-circle text-success'"+"></i> Social"
 																				+ "</span> <span class="+"'mr-2'"+"> <i"
-																						+"class="+"'fas fa-circle text-info'"+"></i> Referral"
+																					+"class="+"'fas fa-circle text-info'"+"></i> Referral"
 																				+ "</span>"
 																				+ "</div>"
 																				+ "</div>"
 																				+ "</div>"
 																				+ "</div>";
-
 																	});// each
 													// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
-													$(".listToChange").empty();// 셀렉터 태그 안의 모든 텍스트를 지운다.                       
+													$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
 													$(".scrollLocation").after(
-															str);
+															"<div class="+"'row listToChange'"+">"
+																	+ str
+																	+ "</div>");
 
 												}//if : data != ""
 												else { // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..??
@@ -649,93 +607,52 @@
 					<hr>
 
 					<!-- Content Row -->
-					<div class="row ">
-						<c:set var="listLineCheck" value="1"></c:set>
-						<div class="scrollLocation container row"></div>
-						<div class="listToChange container row">
+					<div class="container-fuild">
+						<input type="hidden" class="scrollLocation">
+						<div class="row listToChange">
+							<!-- listToStart 에서 안에 값 비우고 listTostart를 새로 만듦. -->
 							<c:forEach var="item" items="${listAll }">
-								<c:choose>
-									<c:when test="${listLineCheck eq '1'}">
-										<c:set var="listLineCheck" value="0"></c:set>
-										<div class="col-lg-6 mb-4">
-											<!-- Page Heading -->
-											<div
-												class="d-sm-flex align-items-center justify-content-between mb-4">
-											</div>
+								<div class="col-lg-6 mb-4">
+									<!-- Page Heading -->
+									<div
+										class="d-sm-flex align-items-center justify-content-between mb-4">
+									</div>
 
-											<div class="card shadow mb-4">
-												<div class="card-header py-3">
-													<h6 class="m-0 font-weight-bold text-primary">${item.TITLE }<span
-															class="text-danger">&nbsp[${item.HIT_CNT }]</span>
-													</h6>
-													<input type="hidden" id="IDX" value="${item.IDX }">
-												</div>
-												<div class="card-body">
-													<div class="text-center">
-														<img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-															style="width: 25rem;" src="img/undraw_posting_photo.svg"
-															alt="">
-													</div>
-													<p>${item.CONTENTS }</p>
-													<a target="_blank" rel="nofollow" href="https://undraw.co/">더
-														보러가기 &rarr;</a>
-													<div class="mt-4 text-center small">
-														<span class="mr-2"> <i
-															class="fas fa-circle text-primary"></i> Direct
-														</span> <span class="mr-2"> <i
-															class="fas fa-circle text-success"></i> Social
-														</span> <span class="mr-2"> <i
-															class="fas fa-circle text-info"></i> Referral
-														</span>
-													</div>
-												</div>
+									<div class="card shadow mb-4">
+										<div class="card-header py-3">
+											<h6 class="m-0 font-weight-bold text-primary">${item.TITLE }<span
+													class="text-danger">&nbsp[${item.HIT_CNT }]</span>
+											</h6>
+											<input type="hidden" id="IDX" value="${item.IDX }">
+										</div>
+										<div class="card-body">
+											<div class="text-center">
+												<img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+													style="width: 25rem;" src="img/undraw_posting_photo.svg"
+													alt="">
+											</div>
+											<p>${item.CONTENTS }</p>
+											<a target="_blank" rel="nofollow" href="https://undraw.co/">더
+												보러가기 &rarr;</a>
+											<div class="mt-4 text-center small">
+												<span class="mr-2"> <i
+													class="fas fa-circle text-primary"></i> Direct
+												</span> <span class="mr-2"> <i
+													class="fas fa-circle text-success"></i> Social
+												</span> <span class="mr-2"> <i
+													class="fas fa-circle text-info"></i> Referral
+												</span>
 											</div>
 										</div>
-									</c:when>
-									<c:otherwise>
-										<c:set var="listLineCheck" value="1"></c:set>
-										<div class="col-lg-6 mb-4">
-											<!-- Page Heading -->
-											<div
-												class="d-sm-flex align-items-center justify-content-between mb-4">
-											</div>
+									</div>
+								</div>
 
-											<div class="card shadow mb-4">
-												<div class="card-header py-3">
-													<h6 class="m-0 font-weight-bold text-primary">${item.TITLE }<span
-															class="text-danger">&nbsp[${item.HIT_CNT }]</span>
-													</h6>
-													<input type="hidden" id="IDX" value="${item.IDX }">
-												</div>
-												<div class="card-body">
-													<div class="text-center">
-														<img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-															style="width: 25rem;" src="img/undraw_posting_photo.svg"
-															alt="">
-													</div>
-													<p>${item.CONTENTS }</p>
-													<a target="_blank" rel="nofollow" href="https://undraw.co/">더
-														보러가기 &rarr;</a>
-													<div class="mt-4 text-center small">
-														<span class="mr-2"> <i
-															class="fas fa-circle text-primary"></i> Direct
-														</span> <span class="mr-2"> <i
-															class="fas fa-circle text-success"></i> Social
-														</span> <span class="mr-2"> <i
-															class="fas fa-circle text-info"></i> Referral
-														</span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</c:otherwise>
-								</c:choose>
 								<input type="hidden" class="scrolling" data-bno="${item.IDX }">
 							</c:forEach>
 						</div>
 					</div>
-
 				</div>
+
 
 				<button type="button" class="btn btn-warning btn-circle btn-lg"
 					id="upBTN">UP</button>

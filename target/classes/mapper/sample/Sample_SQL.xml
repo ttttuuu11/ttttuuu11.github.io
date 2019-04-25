@@ -34,10 +34,12 @@
 	</select>
 	<select id="infiniteScrollDown"
 		resultType="hashmap"> 
-		<![CDATA[ SELECT IDX,CONTENTS, TITLE, HIT_CNT, CREA_DTM FROM TB_BOARD WHERE DEL_GB = 'N' and CATEGORY_IDX=#{CATEGORY_IDX} and IDX <= #{bnoToStrat} and IDX >= 0 ORDER BY IDX DESC limit 0,1]]>
+		<![CDATA[ SELECT IDX,CONTENTS, TITLE, HIT_CNT, CREA_DTM FROM TB_BOARD WHERE DEL_GB = 'N' and CATEGORY_IDX=#{CATEGORY_IDX} and IDX <= #{bnoToStart} and IDX >= 0 ORDER BY IDX DESC limit 0,20]]>
 	</select>
-	
-	
+	<select id="infiniteScrollUp"
+		resultType="hashmap"> 
+		<![CDATA[ SELECT IDX,CONTENTS, TITLE, HIT_CNT, CREA_DTM FROM TB_BOARD WHERE DEL_GB = 'N' and CATEGORY_IDX=#{CATEGORY_IDX} and IDX >= #{bnoToStart} and IDX >= #{bnoToStart}+20 ORDER BY IDX DESC limit 0,20]]>
+	</select>
 	<insert id="insertBoard" parameterType="hashmap"> 
 		<![CDATA[ INSERT INTO TB_BOARD (  TITLE, CONTENTS, HIT_CNT, DEL_GB, CREA_DTM, CREA_ID, CATEGORY_IDX ) VALUES (  #{TITLE}, #{CONTENTS}, 0, 'N', SYSDATE(), 'Admin',#{CATEGORY_IDX} ) ]]>
 	</insert>
