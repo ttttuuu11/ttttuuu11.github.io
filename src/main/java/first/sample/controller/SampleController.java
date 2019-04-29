@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -159,9 +161,13 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/sample/viewDetail.do")
-	public ModelAndView viewDetail(Map<String, Object> commandMap) throws Exception {
+	public ModelAndView viewDetail(Map<String, Object> commandMap, @RequestParam("IDX") Object IDX) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/viewDetail");
-
+		commandMap.put("IDX",IDX);
+		log.debug("먀핑성공");
+		Map<String, Object> boardDetail = sampleService.selectBoardDetail(commandMap);
+		log.debug("detail값은???:"+boardDetail);
+		mv.addObject("boardDetail",boardDetail);
 		return mv;
 	}
 
@@ -173,10 +179,10 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/sample/viewWrite.do")
-	public ModelAndView viewWrite(Map<String, Object> commandMap) throws Exception {
+	public ModelAndView viewWrite(Map<String, Object> commandMap ,  @RequestParam("c") Object CATEGORY_IDX) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/viewWrite");
-
-		
+		commandMap.put("CATEGORY_IDX", CATEGORY_IDX);
+		mv.addObject("CATEGORY_IDX",CATEGORY_IDX);
 		return mv;
 	}
 
@@ -196,8 +202,11 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/sample/openBoardWrite.do")
-	public ModelAndView openBoardWrite(CommandMap commandMap) throws Exception {
+	public ModelAndView openBoardWrite(CommandMap commandMap,  @RequestParam("c") Object CATEGORY_IDX) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/boardWrite");
+		commandMap.put("CATEGORY_IDX", CATEGORY_IDX);
+
+		mv.addObject("CATEGORY_IDX",CATEGORY_IDX);
 		return mv;
 	}
 
@@ -257,6 +266,8 @@ public class SampleController {
 	
 	@RequestMapping(value = "/sample/infiniteScrollUp.do", method=RequestMethod.POST)
 	public @ResponseBody List<Map<String, Object>> infiniteScrollUpPost(@RequestBody Map<String,Object> commandMap) throws Exception {
+		log.debug("잘 실행 되요~~~");
+		log.debug("얍:"+commandMap.get("bno"));
 		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))-1;
 
 		commandMap.put("bnoToStart",bnoToStart);
@@ -270,6 +281,7 @@ public class SampleController {
 		return listAll;
 	}
 	
+	@Autowired private ResourceLoader resourceLoader;
 	@RequestMapping(value = "/sample/imageUpload.do", method = RequestMethod.POST)
 	public void communityImageUpload(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam MultipartFile upload) {
@@ -283,20 +295,22 @@ public class SampleController {
 
 			String fileName = upload.getOriginalFilename();
 			byte[] bytes = upload.getBytes();
-			String uploadPath = "D:/workspace/first/src/main/webapp/resources/imageUpload/" + fileName;// 저장경로
+			String uploadPath = "D:/workspace/first/src/main/webapp/imageUpload/" + fileName;// 저장경로
 
 			out = new FileOutputStream(new File(uploadPath));
 			out.write(bytes);
 			String callback = request.getParameter("CKEditorFuncNum");
 
+		
+			
 			printWriter = response.getWriter();
-			String fileUrl = "first/resources/imageUpload/" + fileName;// url경로
+			String fileUrl = resourceLoader.getResource("imageUpload/").getURI().getPath() + fileName;// url경로
 
 			printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(" + callback
-					+ ",'" + fileUrl + "','이미지를 업로드 하였습니다.'" + ")</script>");
+					+ ",'" +fileUrl +"','이미지를 업로드 하였습니다.'" + ")</script>");
 			printWriter.flush();
 
-		} catch (IOException e) {
+		} catch (IOException e) {	
 			e.printStackTrace();
 		} finally {
 			try {

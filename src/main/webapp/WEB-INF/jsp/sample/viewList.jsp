@@ -116,8 +116,7 @@
 								var cIdx = $("#CATEGORY_IDX").val()
 
 								// 4. ajax를 이용하여 현재 뿌려진 게시글의 마지막 bno를 서버로 보내어 그 다음 20개의 게시물 데이터를 받아온다.
-								$
-										.ajax({
+								$.ajax({
 											type : 'post', // 요청 method 방식
 											url : 'infiniteScrollDown.do',// 요청할 서버의 url
 											headers : {
@@ -157,14 +156,12 @@
 																				+ "</div>"
 																				+ "<div class="+"'card-body'"+">"
 																				+ "<div class="+"'text-center'"+">"
-																				+ "<img class="+"'img-fluid px-3 px-sm-4 mt-3 mb-4'"
-																							+"style="+"'width: 25rem;'"+"src="+"'img/undraw_posting_photo.svg'"
-																							+">"
+																				
 																				+ "</div>"
 																				+ "<p>"
 																				+ this.CONTENTS
 																				+ "</p>"
-																				+ "<a target="+"'_blank'"+"rel="+"'nofollow'"+"href="+"'https://undraw.co/'"+">더"
+																				+ "<a target="+"'_blank'"+"rel="+"'nofollow'"+"href="+"'viewDetail?IDX="+this.IDX+"'>더"
 																				+ "보러가기 &rarr;</a>"
 																				+ "<div class="+"'mt-4 text-center small'"+">"
 																				+ "<span class="+"'mr-2'"+"> <i"
@@ -177,14 +174,15 @@
 																				+ "</div>"
 																				+ "</div>"
 																				+ "</div>"
-																				+ "</div>";
+																				+ "</div>"
+																				+"<input type="+"'hidden'"+" class="+"'scrolling'"+" data-bno="+this.IDX+">";
 
 																	});// each
 													// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
 													$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
 													$(".scrollLocation").after(
 															"<div class="+"'row listToChange'"+">"
-																	+ str
+																	+ str 
 																	+ "</div>");
 												}// if : data!=null
 												else { // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..
@@ -273,14 +271,12 @@
 																				+ "</div>"
 																				+ "<div class="+"'card-body'"+">"
 																				+ "<div class="+"'text-center'"+">"
-																				+ "<img class="+"'img-fluid px-3 px-sm-4 mt-3 mb-4'"
-																					+"style="+"'width: 25rem;'"+"src="+"'img/undraw_posting_photo.svg'"
-																					+">"
+																		
 																				+ "</div>"
 																				+ "<p>"
 																				+ this.CONTENTS
 																				+ "</p>"
-																				+ "<a target="+"'_blank'"+"rel="+"'nofollow'"+"href="+"'https://undraw.co/'"+">더"
+																				+ "<a target="+"'_blank'"+"rel="+"'nofollow'"+"href="+"'viewDetail?IDX="+this.IDX+"'>더"
 																				+ "보러가기 &rarr;</a>"
 																				+ "<div class="+"'mt-4 text-center small'"+">"
 																				+ "<span class="+"'mr-2'"+"> <i"
@@ -293,7 +289,8 @@
 																				+ "</div>"
 																				+ "</div>"
 																				+ "</div>"
-																				+ "</div>";
+																				+ "</div>"
+																				+"<input type="+"'hidden'"+" class="+"'scrolling'"+" data-bno="+this.IDX+">";
 																	});// each
 													// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
 													$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
@@ -600,7 +597,7 @@
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 class="h3 mb-0 text-gray-800">NAME</h1>
-						<a href="viewWrite.do"
+						<a href="viewWrite.do?c="${CATEGORY_IDX }
 							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">&nbsp&nbsp글쓰기&nbsp&nbsp</a>
 					</div>
 
@@ -632,7 +629,7 @@
 													alt="">
 											</div>
 											<p>${item.CONTENTS }</p>
-											<a target="_blank" rel="nofollow" href="https://undraw.co/">더
+											<a href="viewDetail?IDX=${item.IDX }">더
 												보러가기 &rarr;</a>
 											<div class="mt-4 text-center small">
 												<span class="mr-2"> <i

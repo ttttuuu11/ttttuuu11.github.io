@@ -56,6 +56,10 @@
 	font-size: 12px;
 	line-height: 1.42857;
 }
+
+.dropdown_list {
+	left-margin: 10px;
+}
 </style>
 
 </head>
@@ -98,7 +102,7 @@
 
 			<!-- Nav Item - Dashboard -->
 			<li class="nav-item active"><a class="nav-link"
-				href="index.html"> <i class="fas fa-fw fa-tachometer-alt"></i> <span>카테고리</span></a></li>
+				href="index.html"> <span>학습 내용</span></a></li>
 
 			<!-- Divider -->
 			<hr class="sidebar-divider">
@@ -142,37 +146,39 @@
 			<hr class="sidebar-divider">
 
 			<!-- Heading -->
-			<div class="sidebar-heading">Addons</div>
+			<div class="sidebar-heading">CATEGORY</div>
 
 			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i
-					class="fas fa-fw fa-folder"></i> <span>Pages</span>
-			</a>
-				<div id="collapsePages" class="collapse"
-					aria-labelledby="headingPages" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Login Screens:</h6>
-						<a class="collapse-item" href="login.html">Login</a> <a
-							class="collapse-item" href="register.html">Register</a> <a
-							class="collapse-item" href="forgot-password.html">Forgot
-							Password</a>
-						<div class="collapse-divider"></div>
-						<h6 class="collapse-header">Other Pages:</h6>
-						<a class="collapse-item" href="404.html">404 Page</a> <a
-							class="collapse-item" href="blank.html">Blank Page</a>
-					</div>
-				</div></li>
-
+			<c:forEach var="parentItem" items="${sidebarListParentNull }"
+				varStatus="status">
+				<li class="nav-item"><a class="nav-link collapsed" href="#"
+					data-toggle="collapse" data-target="#collapsePages${status.index }"
+					aria-expanded="true" aria-controls="collapsePages"> <span>${parentItem.CATEGORY_NAME }</span>
+				</a>
+					<div id="collapsePages${status.index }" class="collapse"
+						aria-labelledby="headingPages" data-parent="#accordionSidebar">
+						<div class="bg-white py-2 collapse-inner rounded bg-primary">
+							<h6 class="collapse-header">List:</h6>
+							<c:set var="sidebarListChild"
+								value="sidebarListChild${status.index}" />
+							<c:forEach var="item" items="${requestScope[sidebarListChild]}">
+								<c:if test="${!empty item.CATEGORY_NAME }">
+									<a class="collapse-item"
+										href="viewList.do?c=${item.CATEGORY_IDX }">${item.CATEGORY_NAME }
+									</a>
+								</c:if>
+							</c:forEach>
+						</div>
+					</div></li>
+			</c:forEach>
 			<!-- Nav Item - Charts -->
 			<li class="nav-item"><a class="nav-link" href="charts.html">
-					<i class="fas fa-fw fa-chart-area"></i> <span>Charts</span>
+					<span>Charts</span>
 			</a></li>
 
 			<!-- Nav Item - Tables -->
 			<li class="nav-item"><a class="nav-link" href="tables.html">
-					<i class="fas fa-fw fa-table"></i> <span>Tables</span>
+					<span>Tables</span>
 			</a></li>
 
 			<!-- Divider -->
@@ -180,11 +186,14 @@
 
 			<!-- Sidebar Toggler (Sidebar) -->
 			<div class="text-center d-none d-md-inline">
-				<button class="rounded-circle border-0" id="sidebarToggle"></button>
+				<a href="#" data-toggle="modal" data-target="#addCategory"> <img
+					src="<c:url value='/resources/img/plus.png'/>" width="30"
+					height="30"></a>
 			</div>
-
 		</ul>
 		<!-- End of Sidebar -->
+
+
 
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -198,21 +207,68 @@
 
 					<!-- Sidebar Toggle (Topbar) -->
 					<button id="sidebarToggleTop"
-						class="btn btn-link d-md-none rounded-circle mr-3">
-						<i class="fa fa-bars"></i>
-					</button>
+						class="btn btn-link d-md-none rounded-circle mr-3"></button>
+
+
+					<script>
+						$(function() {
+							$(".categoryBTN").click(
+									function() {
+										var parentCategoryIdx = $(this)
+												.parent().children(":eq(1)")
+												.val();
+										var parentCategoryName = $(this)
+												.parent().children(":eq(0)");
+										$("#addParentCategoryIdx").val(
+												parentCategoryIdx);
+										$("#categoryText").html(
+												parentCategoryName.html());
+									});
+							$("#addCategoryBTN")
+									.click(
+											function() {
+												$("#categoryForm")
+														.attr("action",
+																"/first/sample/AddCategory.do");
+												$("#categoryForm").attr(
+														"method", "post");
+												$("#categoryForm").submit();
+											});
+						});
+						//드롭다운 목록 폼 전송
+					</script>
+
+					<script>
+						$(function() {
+							//검색 폼 전송
+							$("#searchBTN")
+									.click(
+											function() {
+												$("#searchForm")
+														.attr("action",
+																"/first/sample/viewListSearch.do");
+												$("#searchForm").attr("method",
+														"get");
+												$("#searchForm").submit();
+											});
+
+						});
+						//드롭다운 목록 폼 전송
+					</script>
+
+
 
 					<!-- Topbar Search -->
 					<form
-						class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+						class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+						id="searchForm">
 						<div class="input-group">
 							<input type="text" class="form-control bg-light border-0 small"
 								placeholder="검색하기" aria-label="Search"
-								aria-describedby="basic-addon2">
+								aria-describedby="basic-addon2" name="s" id="s"> <input
+								type="hidden" value="${CATEGORY_IDX }" name="c" id="c">
 							<div class="input-group-append">
-								<button class="btn btn-primary" type="button">
-									<i class="fas fa-search fa-sm"></i>
-								</button>
+								<button class="btn btn-primary" id="searchBTN"></button>
 							</div>
 						</div>
 					</form>
@@ -237,32 +293,28 @@
 											placeholder="Search for..." aria-label="Search"
 											aria-describedby="basic-addon2">
 										<div class="input-group-append">
-											<button class="btn btn-primary" type="button">
-												<i class="fas fa-search fa-sm"></i>
-											</button>
+											<button class="btn btn-primary" type="button"></button>
 										</div>
 									</div>
 								</form>
 							</div></li>
 
 						<!-- Nav Item - Alerts -->
-						<li class="nav-item dropdown no-arrow mx-1">
-						<a class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
+						<li class="nav-item dropdown no-arrow mx-1"><a
+							class="nav-link dropdown-toggle " href="#" id="alertsDropdown"
 							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <i class="fas fa-bell fa-fw"> 
-							<img src="<c:url value='/resources/img/bell.png'/>" width="25" height="25"></i>
-							 <!-- Counter - Alerts --> 
-							 <span class="badge badge-danger badge-counter">3+</span>
-						</a> 
-						<!-- Dropdown - Alerts -->
+							aria-expanded="false"> <img
+								src="<c:url value='/resources/img/bell.png'/>" width="25"
+								height="25"></i> <!-- Counter - Alerts --> <span
+								class="badge badge-danger badge-counter">3+</span>
+						</a> <!-- Dropdown - Alerts -->
 							<ul class="dropdown-menu">
-								<li><a href="#">3-1번 메뉴</a></li>
+								<li class="dropdown_list"><a href="#">3-1번 메뉴</a></li>
 								<li class="divider"></li>
 								<li class="dropdown-header">네비게이션 헤더</li>
-								<li><a href="#">3-4번 메뉴</a></li>
-							</ul>
-						</li>
-						
+								<li class="dropdown_list"><a href="#">3-4번 메뉴</a></li>
+							</ul></li>
+
 						<!-- Nav Item - Messages -->
 						<li class="nav-item dropdown no-arrow mx-1"><a
 							class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
@@ -291,27 +343,90 @@
 				</nav>
 				<!-- End of Topbar -->
 
+
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">Name</h1>
+						<h1 class="h3 mb-0 text-gray-800">글쓰기</h1>
 						<a href="#"
-							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">&nbsp&nbsp글쓰기&nbsp&nbsp</a>
+							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">&nbsp&nbsp취소&nbsp&nbsp</a>
 					</div>
 					<hr>
 					<!-- Content Row -->
 
-					
+
+					<script>
+						$(function() {
+							$("#addCategoryBTN")
+									.click(
+											function() {
+												$("#writeForm")
+														.attr("action",
+																"/first/sample/insertBoard.do");
+												$("#writeForm").attr(
+														"method", "post");
+												$("#writeForm").submit();
+											});
+						});
+						//드롭다운 목록 폼 전송
+					</script>
+
+					<form role="form" id="writeForm">
+						<div class="form-group">
+							<label for="mTitle" class="col-form-label">제목</label><h4>${boardDetail.TITLE }</h4>
+						</div>
+						<input type="hidden" value="${CATEGORY_IDX }" id="CATEGORY_IDX" name="CATEGORY_IDX" >
+						<div class="form-group">
+							<textarea class="form-control" id="CONTENTS" name="CONTENTS"
+								rows="5"  readonly="readonly">${boardDetail.CONTENTS }</textarea>
+							<script>
+								$(function() {
+
+									CKEDITOR
+											.replace(
+													'CONTENTS',
+													{//해당 이름으로 된 textarea에 에디터를 적용
+														width : '100%',
+														height : '400px',
+															toolbar: 'Custom', //makes all editors use this toolbar
+														  	toolbarStartupExpanded : false,
+														  	toolbarCanCollapse  : false,
+														  	toolbar_Custom: [] //define an empty array or whatever buttons you want.
+													
+													});
+
+									CKEDITOR
+											.on(
+													'dialogDefinition',
+													function(ev) {
+														var dialogName = ev.data.name;
+														var dialogDefinition = ev.data.definition;
+
+														switch (dialogName) {
+														case 'image': //Image Properties dialog
+															//dialogDefinition.removeContents('info');
+															dialogDefinition
+																	.removeContents('Link');
+															dialogDefinition
+																	.removeContents('advanced');
+															break;
+														}
+													});
+
+								});
+							</script>
+						</div>
+					</form>
 
 					<!-- Content Row -->
-					<div class="row">
-
-					</div>
+					<div class="row"></div>
 
 				</div>
+
+
 
 				<button type="button" class="btn btn-warning btn-circle btn-lg"
 					id="upBTN">UP</button>

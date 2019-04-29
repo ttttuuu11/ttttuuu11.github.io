@@ -357,21 +357,39 @@
 					<hr>
 					<!-- Content Row -->
 
-					<form role="form" id="myform">
+
+					<script>
+						$(function() {
+							$("#addCategoryBTN")
+									.click(
+											function() {
+												$("#writeForm")
+														.attr("action",
+																"/first/sample/insertBoard.do");
+												$("#writeForm").attr(
+														"method", "post");
+												$("#writeForm").submit();
+											});
+						});
+						//드롭다운 목록 폼 전송
+					</script>
+
+					<form role="form" id="writeForm">
 						<div class="form-group">
 							<label for="mTitle" class="col-form-label">제목</label> <input
 								type="text" class="form-control" id="TITLE" name="TITLE"
 								placeholder="제목">
 						</div>
+						<input type="hidden" value="${CATEGORY_IDX }" id="CATEGORY_IDX" name="CATEGORY_IDX" >
 						<div class="form-group">
-							<textarea class="form-control" id="CONTENT" name="CONTENT"
+							<textarea class="form-control" id="CONTENTS" name="CONTENTS"
 								rows="5" placeholder="내용"></textarea>
 							<script>
 								$(function() {
 
 									CKEDITOR
 											.replace(
-													'CONTENT',
+													'CONTENTS',
 													{//해당 이름으로 된 textarea에 에디터를 적용
 														width : '100%',
 														height : '400px',
