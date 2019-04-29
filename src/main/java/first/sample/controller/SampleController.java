@@ -95,7 +95,6 @@ public class SampleController {
 	@RequestMapping(value = "/sample/viewList.do")
 	public ModelAndView viewList(Map<String, Object> commandMap, @RequestParam("c") Object CATEGORY_IDX)
 			throws Exception {
-		// log.debug("--------------카테고고고고고고리"+CATEGORY_IDX);
 		ModelAndView mv = new ModelAndView("/sample/viewList");
 		commandMap.put("CATEGORY_IDX", CATEGORY_IDX);
 		List<Map<String, Object>> listAll = sampleService.selectBoardListAll(commandMap);
@@ -116,7 +115,7 @@ public class SampleController {
 			}
 		}
 		mv.addObject("listAll", listAll);
-		mv.addObject("CATEGORY_IDX",CATEGORY_IDX);
+		mv.addObject("CATEGORY_IDX",CATEGORY_IDX.toString());
 		mv.addObject("sidebarListParentNull", sidebarListParentNull);
 
 		return mv;
@@ -154,7 +153,7 @@ public class SampleController {
 			}
 		}
 		mv.addObject("listAll", listSearch);
-		mv.addObject("CATEGORY_IDX",CATEGORY_IDX);
+		mv.addObject("CATEGORY_IDX",CATEGORY_IDX.toString());
 		mv.addObject("sidebarListParentNull", sidebarListParentNull);
 
 		return mv;
@@ -182,7 +181,8 @@ public class SampleController {
 	public ModelAndView viewWrite(Map<String, Object> commandMap ,  @RequestParam("c") Object CATEGORY_IDX) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/viewWrite");
 		commandMap.put("CATEGORY_IDX", CATEGORY_IDX);
-		mv.addObject("CATEGORY_IDX",CATEGORY_IDX);
+		log.debug("write페이지에서의 카테고리 인덱스 :"+CATEGORY_IDX.toString());
+		mv.addObject("CATEGORY_IDX",CATEGORY_IDX.toString());
 		return mv;
 	}
 
@@ -205,15 +205,15 @@ public class SampleController {
 	public ModelAndView openBoardWrite(CommandMap commandMap,  @RequestParam("c") Object CATEGORY_IDX) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/boardWrite");
 		commandMap.put("CATEGORY_IDX", CATEGORY_IDX);
-
-		mv.addObject("CATEGORY_IDX",CATEGORY_IDX);
+		
+		mv.addObject("CATEGORY_IDX",CATEGORY_IDX.toString());
 		return mv;
 	}
 
 	@RequestMapping(value = "/sample/insertBoard.do")
 	public ModelAndView insertBoard(CommandMap commandMap) throws Exception {
-		log.debug("글쓰기 페이지 시작!");
-		ModelAndView mv = new ModelAndView("redirect:/sample/openBoardList.do");
+		ModelAndView mv = new ModelAndView("redirect:/sample/viewList.do?c="+commandMap.get("CATEGORY_IDX").toString());
+		log.debug("insert에서 의 카테고리인덱스 : "+commandMap.get("CATEGORY_IDX").toString());
 		sampleService.insertBoard(commandMap.getMap());
 		return mv;
 	}
@@ -266,7 +266,6 @@ public class SampleController {
 	
 	@RequestMapping(value = "/sample/infiniteScrollUp.do", method=RequestMethod.POST)
 	public @ResponseBody List<Map<String, Object>> infiniteScrollUpPost(@RequestBody Map<String,Object> commandMap) throws Exception {
-		log.debug("잘 실행 되요~~~");
 		log.debug("얍:"+commandMap.get("bno"));
 		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))-1;
 

@@ -366,9 +366,8 @@
 												//각 폼의 null 체크
 												var state = true;
 												var msg = "모든 입력 값은 필수입니다.";
-												var data = CKEDITOR.instances.content
+												var data = CKEDITOR.instances.CONTENTS
 														.getData();
-
 												if (!$("#TITLE").val()) {
 													state = false;
 												}

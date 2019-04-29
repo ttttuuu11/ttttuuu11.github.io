@@ -597,7 +597,7 @@
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 class="h3 mb-0 text-gray-800">NAME</h1>
-						<a href="viewWrite.do?c="${CATEGORY_IDX }
+						<a href="viewWrite.do?c=${CATEGORY_IDX }"
 							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">&nbsp&nbsp글쓰기&nbsp&nbsp</a>
 					</div>
 
