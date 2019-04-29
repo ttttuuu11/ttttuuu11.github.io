@@ -180,10 +180,7 @@
 																	});// each
 													// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
 													//$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
-													$(".scrollLocation").after(
-															"<div class="+"'row listToChange'"+">"
-																	+ str 
-																	+ "</div>");
+													$(".scrolling:last").after(str);
 												}// if : data!=null
 												else { // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..
 													alert("더 불러올 데이터가 없습니다.");
@@ -193,13 +190,12 @@
 										});// ajax
 
 								// 여기서 class가 listToChange인 것중 가장 처음인 것을 찾아서 그 위치로 이동하자.
-								var position = $(".listToChange:first")
-										.offset();// 위치 값
+								var position = $(".listToChange:first").offset();// 위치 값
 
 								// 이동  위로 부터 position.top px 위치로 스크롤 하는 것이다. 그걸 500ms 동안 애니메이션이 이루어짐.
-								$('html,body').stop().animate({
-									scrollTop : position.top
-								}, 600, easeEffect);
+								//$('html,body').stop().animate({
+								//	scrollTop : position.top
+								//}, 600, easeEffect);
 
 							}//if : 현재 스크롤의 top 좌표가  > (게시글을 불러온 화면 height - 윈도우창의 height) 되는 순간
 
@@ -211,7 +207,7 @@
 						    =================   업 스크롤인 상태   ================
 						 */
 						else {
-							// up- scroll : 현재 게시글 이전의 글을 불러온다.
+							/* // up- scroll : 현재 게시글 이전의 글을 불러온다.
 							console.log("up-scroll");
 
 							// 2. 현재 스크롤의 top 좌표가  <= 0 되는 순간
@@ -320,7 +316,7 @@
 							}//if : 현재 스크롤의 top 좌표가  <= 0 되는 순간
 
 							// lastScrollTop을 현재 currentScrollTop으로 갱신해준다.
-							lastScrollTop = currentScrollTop;
+							lastScrollTop = currentScrollTop; */
 						}// else : 업 스크롤인 상태
 
 					});// scroll event
@@ -338,7 +334,7 @@
 			<!-- Sidebar - Brand -->
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="index.html">
+				href="openIndex.do">
 				<div class="sidebar-brand-icon rotate-n-15">
 					<i class="fas fa-laugh-wink"></i>
 				</div>

@@ -88,7 +88,7 @@
 			<!-- Sidebar - Brand -->
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="index.html">
+				href="openIndex.do">
 				<div class="sidebar-brand-icon rotate-n-15">
 					<i class="fas fa-laugh-wink"></i>
 				</div>
@@ -350,7 +350,7 @@
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">글쓰기</h1>
+						<h1 class="h3 mb-0 text-gray-800">상세보기</h1>
 						<a href="#"
 							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">&nbsp&nbsp취소&nbsp&nbsp</a>
 					</div>
@@ -366,37 +366,50 @@
 												$("#writeForm")
 														.attr("action",
 																"/first/sample/insertBoard.do");
-												$("#writeForm").attr(
-														"method", "post");
+												$("#writeForm").attr("method",
+														"post");
 												$("#writeForm").submit();
 											});
+							$("#deleteBtn").click(
+									function() {
+										//각 폼의 null 체크
+										if (confirm("삭제하시겠습니까?")) {
+											$("#writeForm").attr("action",
+													"deleteBoard.do");
+											$("#writeForm").attr("method",
+													"post");
+											$("#writeForm").submit();
+										}
+
+									});
 						});
 						//드롭다운 목록 폼 전송
 					</script>
 
 					<form role="form" id="writeForm">
 						<div class="form-group">
-							<label for="mTitle" class="col-form-label">제목</label><h4>${boardDetail.TITLE }</h4>
+							<label for="mTitle" class="col-form-label">제목</label>
+							<h4>${boardDetail.TITLE }</h4>
 						</div>
-						<input type="hidden" value="${CATEGORY_IDX }" id="CATEGORY_IDX" name="CATEGORY_IDX" >
+						<input type="hidden" value="${boardDetail.CATEGORY_IDX }" id="CATEGORY_IDX"
+							name="CATEGORY_IDX"> <input type="hidden"
+							value="${boardDetail.IDX }" id="IDX" name="IDX">
 						<div class="form-group">
 							<textarea class="form-control" id="CONTENTS" name="CONTENTS"
-								rows="5"  readonly="readonly">${boardDetail.CONTENTS }</textarea>
+								rows="5" readonly="readonly">${boardDetail.CONTENTS }</textarea>
 							<script>
 								$(function() {
 
-									CKEDITOR
-											.replace(
-													'CONTENTS',
-													{//해당 이름으로 된 textarea에 에디터를 적용
-														width : '100%',
-														height : '400px',
-															toolbar: 'Custom', //makes all editors use this toolbar
-														  	toolbarStartupExpanded : false,
-														  	toolbarCanCollapse  : false,
-														  	toolbar_Custom: [] //define an empty array or whatever buttons you want.
-													
-													});
+									CKEDITOR.replace('CONTENTS', {//해당 이름으로 된 textarea에 에디터를 적용
+										width : '100%',
+										height : '400px',
+										toolbar : 'Custom', //makes all editors use this toolbar
+										toolbarStartupExpanded : false,
+										toolbarCanCollapse : false,
+										toolbar_Custom : []
+									//define an empty array or whatever buttons you want.
+
+									});
 
 									CKEDITOR
 											.on(
@@ -418,6 +431,11 @@
 
 								});
 							</script>
+						</div>
+						<div class="form-group text-center">
+							<button type="button" class="btn btn-primary" id="deleteBtn">삭제하기</button>
+							<button type="button" class="btn btn-info"
+								onclick="history.back(1)">돌아가기</button>
 						</div>
 					</form>
 

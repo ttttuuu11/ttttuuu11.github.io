@@ -167,6 +167,7 @@ public class SampleController {
 		Map<String, Object> boardDetail = sampleService.selectBoardDetail(commandMap);
 		log.debug("detail값은???:"+boardDetail);
 		mv.addObject("boardDetail",boardDetail);
+		mv.addObject("IDX",IDX);
 		return mv;
 	}
 
@@ -213,7 +214,6 @@ public class SampleController {
 	@RequestMapping(value = "/sample/insertBoard.do")
 	public ModelAndView insertBoard(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/sample/viewList.do?c="+commandMap.get("CATEGORY_IDX").toString());
-		log.debug("insert에서 의 카테고리인덱스 : "+commandMap.get("CATEGORY_IDX").toString());
 		sampleService.insertBoard(commandMap.getMap());
 		return mv;
 	}
@@ -244,14 +244,16 @@ public class SampleController {
 
 	@RequestMapping(value = "/sample/deleteBoard.do")
 	public ModelAndView deleteBoard(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/sample/openBoardList.do");
+		ModelAndView mv = new ModelAndView("redirect:/sample/viewList.do?c="+commandMap.get("CATEGORY_IDX").toString());
+		log.debug("delete에서 의 카테고리인덱스 : "+commandMap.get("CATEGORY_IDX").toString());
+
 		sampleService.deleteBoard(commandMap.getMap());
 		return mv;
 	}
 
 	@RequestMapping(value = "/sample/infiniteScrollDown.do", method=RequestMethod.POST)
 	public @ResponseBody List<Map<String, Object>> infiniteScrollDownPost(@RequestBody Map<String,Object> commandMap) throws Exception {
-		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))+1;
+		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))-1;
 	
 		commandMap.put("bnoToStart",bnoToStart);
 		
@@ -267,7 +269,7 @@ public class SampleController {
 	@RequestMapping(value = "/sample/infiniteScrollUp.do", method=RequestMethod.POST)
 	public @ResponseBody List<Map<String, Object>> infiniteScrollUpPost(@RequestBody Map<String,Object> commandMap) throws Exception {
 		log.debug("얍:"+commandMap.get("bno"));
-		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))-1;
+		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))+1;
 
 		commandMap.put("bnoToStart",bnoToStart);
 		
@@ -280,7 +282,6 @@ public class SampleController {
 		return listAll;
 	}
 	
-	@Autowired private ResourceLoader resourceLoader;
 	@RequestMapping(value = "/sample/imageUpload.do", method = RequestMethod.POST)
 	public void communityImageUpload(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam MultipartFile upload) {
@@ -303,8 +304,7 @@ public class SampleController {
 		
 			
 			printWriter = response.getWriter();
-			String fileUrl = "/first/imageUpload/" + fileName;// url경로 .getURI().getPath()
-			//String fileUrl = session.getServletContext().getRealPath("/imageUpload/");
+			String fileUrl = "/first/imageUpload/" + fileName;
 			printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(" + callback
 					+ ",'" +fileUrl +"','이미지를 업로드 하였습니다.'" + ")</script>");
 			printWriter.flush();
