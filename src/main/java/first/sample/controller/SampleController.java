@@ -303,7 +303,7 @@ public class SampleController {
 		
 			
 			printWriter = response.getWriter();
-			String fileUrl = resourceLoader.getResource("imageUpload/").getURI().getPath() + fileName;// url경로 .getURI().getPath()
+			String fileUrl = "/first/imageUpload/" + fileName;// url경로 .getURI().getPath()
 			//String fileUrl = session.getServletContext().getRealPath("/imageUpload/");
 			printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(" + callback
 					+ ",'" +fileUrl +"','이미지를 업로드 하였습니다.'" + ")</script>");

@@ -179,7 +179,7 @@
 
 																	});// each
 													// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
-													$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
+													//$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
 													$(".scrollLocation").after(
 															"<div class="+"'row listToChange'"+">"
 																	+ str 
@@ -293,7 +293,7 @@
 																				+"<input type="+"'hidden'"+" class="+"'scrolling'"+" data-bno="+this.IDX+">";
 																	});// each
 													// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
-													$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
+													//$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
 													$(".scrollLocation").after(
 															"<div class="+"'row listToChange'"+">"
 																	+ str
