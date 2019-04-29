@@ -629,7 +629,7 @@
 													alt="">
 											</div>
 											<p>${item.CONTENTS }</p>
-											<a href="viewDetail?IDX=${item.IDX }">더
+											<a href="viewDetail.do?IDX=${item.IDX }">더
 												보러가기 &rarr;</a>
 											<div class="mt-4 text-center small">
 												<span class="mr-2"> <i

@@ -360,15 +360,31 @@
 
 					<script>
 						$(function() {
-							$("#addCategoryBTN")
+							$("#saveBtn")
 									.click(
 											function() {
-												$("#writeForm")
-														.attr("action",
-																"/first/sample/insertBoard.do");
-												$("#writeForm").attr(
-														"method", "post");
-												$("#writeForm").submit();
+												//각 폼의 null 체크
+												var state = true;
+												var msg = "모든 입력 값은 필수입니다.";
+												var data = CKEDITOR.instances.content
+														.getData();
+
+												if (!$("#TITLE").val()) {
+													state = false;
+												}
+												if (data = null) {
+													state = false;
+												}
+												if (state) {
+													$("#writeForm")
+															.attr("action","insertBoard.do");
+													$("#writeForm").attr("method",
+															"post");
+													$("#writeForm").submit();
+												} else {
+													alert(msg);
+												}
+
 											});
 						});
 						//드롭다운 목록 폼 전송
@@ -380,7 +396,8 @@
 								type="text" class="form-control" id="TITLE" name="TITLE"
 								placeholder="제목">
 						</div>
-						<input type="hidden" value="${CATEGORY_IDX }" id="CATEGORY_IDX" name="CATEGORY_IDX" >
+						<input type="hidden" value="${CATEGORY_IDX }" id="CATEGORY_IDX"
+							name="CATEGORY_IDX">
 						<div class="form-group">
 							<textarea class="form-control" id="CONTENTS" name="CONTENTS"
 								rows="5" placeholder="내용"></textarea>
@@ -416,6 +433,11 @@
 
 								});
 							</script>
+						</div>
+						<div class="form-group text-center">
+							<button type="button" class="btn btn-primary" id="saveBtn">등록하기</button>
+							<button type="button" class="btn btn-info"
+								onclick="history.back(1)">돌아가기</button>
 						</div>
 					</form>
 
