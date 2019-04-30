@@ -26,7 +26,7 @@
 	</select>
 	<select id="selectSidebarListParentNull" parameterType="hashmap"
 		resultType="hashmap"> 
-		<![CDATA[ SELECT * FROM category WHERE P_CATEGORY_IDX IS NULL]]>
+		<![CDATA[ SELECT * FROM category WHERE P_CATEGORY_IDX = '0' ]]>
 	</select>
 	<select id="selectSidebarListChild" parameterType="hashmap"
 		resultType="hashmap"> 
@@ -48,6 +48,9 @@
 	</insert>
 	<insert id="insertCategory" parameterType="hashmap"> 
 		<![CDATA[ INSERT INTO category ( CATEGORY_NAME, P_CATEGORY_IDX) VALUES(#{addCategoryName},#{addParentCategoryIdx}) ]]>
+	</insert>
+		<insert id="insertCategory0" parameterType="hashmap"> 
+		<![CDATA[ INSERT INTO category ( CATEGORY_NAME, P_CATEGORY_IDX) VALUES(#{addCategoryName},'0') ]]>
 	</insert>
 	<update id="updateHitCnt" parameterType="hashmap"> <![CDATA[ UPDATE TB_BOARD SET HIT_CNT = ifnull(HIT_CNT, 0) + 1 WHERE IDX = #{IDX} 	]]>
 	</update>
