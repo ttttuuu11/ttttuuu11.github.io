@@ -61,6 +61,10 @@ public class SampleDAO extends AbstractDAO {
 		insert("sample.insertCategory", map);
 	}
 
+	public void insertCategory0(Map<String, Object> map) throws Exception {
+		insert("sample.insertCategory0", map);
+	}
+	
 	public void insertBoard(Map<String, Object> map) throws Exception {
 		insert("sample.insertBoard", map);
 	}

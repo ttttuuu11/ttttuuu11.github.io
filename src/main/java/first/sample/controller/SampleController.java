@@ -87,7 +87,12 @@ public class SampleController {
 	@RequestMapping(value = "/sample/AddCategory.do")
 	public ModelAndView AddCategory(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/sample/openIndex.do");
-		sampleService.insertCategory(commandMap.getMap());
+		
+		if(commandMap.get("addParentCategoryIdx").toString()=="0") {
+			sampleService.insertCategory0(commandMap.getMap());
+		}else {
+			sampleService.insertCategory(commandMap.getMap());
+		}
 		return mv;
 	}
 
