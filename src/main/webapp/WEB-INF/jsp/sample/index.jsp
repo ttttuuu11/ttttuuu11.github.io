@@ -264,6 +264,8 @@
 												<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 													<button class="dropdown-item categoryBTN" type="button">큰
 														카테고리</button>
+													<input type="hidden" value="0">
+
 													<c:forEach var="parentCategory"
 														items="${sidebarListParentNull }">
 														<div class="categoryDropdown">

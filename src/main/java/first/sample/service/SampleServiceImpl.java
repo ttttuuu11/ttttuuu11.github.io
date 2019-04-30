@@ -99,6 +99,10 @@ public class SampleServiceImpl implements SampleService {
 	}
 
 	@Override
+	public void insertCategory0(Map<String, Object> map) throws Exception {
+		sampleDAO.insertCategory0(map);
+	}
+	@Override
 	public List<Map<String, Object>> infiniteScrollUp(Map<String,Object> map) throws Exception {
 
 		return sampleDAO.infiniteScrollUp(map);
