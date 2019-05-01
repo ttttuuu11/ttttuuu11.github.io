@@ -256,7 +256,51 @@
 						//드롭다운 목록 폼 전송
 					</script>
 
+					<script>
+						$(function() {
+							$(".categoryBTN").click(
+									function() {
+										var parentCategoryIdx = $(this)
+												.parent().children(":eq(1)")
+												.val();
+										var parentCategoryName = $(this)
+												.parent().children(":eq(0)");
+										$("#addParentCategoryIdx").val(
+												parentCategoryIdx);
+										$("#categoryText").html(
+												parentCategoryName.html());
+									});
+							$("#addCategoryBTN")
+									.click(
+											function() {
+												$("#categoryForm")
+														.attr("action",
+																"/first/sample/AddCategory.do");
+												$("#categoryForm").attr(
+														"method", "post");
+												$("#categoryForm").submit();
+											});
+						});
+						//드롭다운 목록 폼 전송
+					</script>
 
+					<script>
+						$(function() {
+							//검색 폼 전송
+							$("#searchBTN")
+									.click(
+											function() {
+												$("#searchForm")
+														.attr("action",
+																"/first/sample/viewListSearch.do");
+												$("#searchForm").attr("method",
+														"get");
+												$("#searchForm").submit();
+											});
+
+						});
+						//드롭다운 목록 폼 전송
+					</script>
 
 					<!-- Topbar Search -->
 					<form
@@ -391,9 +435,9 @@
 							<label for="mTitle" class="col-form-label">제목</label>
 							<h4>${boardDetail.TITLE }</h4>
 						</div>
-						<input type="hidden" value="${boardDetail.CATEGORY_IDX }" id="CATEGORY_IDX"
-							name="CATEGORY_IDX"> <input type="hidden"
-							value="${boardDetail.IDX }" id="IDX" name="IDX">
+						<input type="hidden" value="${boardDetail.CATEGORY_IDX }"
+							id="CATEGORY_IDX" name="CATEGORY_IDX"> <input
+							type="hidden" value="${boardDetail.IDX }" id="IDX" name="IDX">
 						<div class="form-group">
 							<textarea class="form-control" id="CONTENTS" name="CONTENTS"
 								rows="5" readonly="readonly">${boardDetail.CONTENTS }</textarea>
@@ -427,8 +471,68 @@
 																	.removeContents('advanced');
 															break;
 														}
-													});
+													});		
+								});
+							</script>
 
+							<script>
+								$(function() {
+									$("#commentBTN")
+											.click(
+													function() {
+														var msg="댓글을 다시 확인해주세요";
+														var state = true;
+														var IDX = $("#BOARD_IDX").val();
+
+														if(!$("#PW").val()){
+															msg="비밀번호를 입력해주세요";
+															state=false;
+														}
+														if(!$("#NAME").val()){
+															msg="아이디를 입력해주세요";
+															state=false;
+														}
+														if(!$("#COMMENT").val()){
+															msg="내용을 입력해주세요";
+															state=false;
+														}
+														
+														if(state){
+															$("#commentForm")
+																	.attr("action",
+																			"/first/sample/AddComment.do?IDX="+IDX);
+															$("#commentForm")
+																	.attr("method",
+																			"post");
+															$("#commentForm")
+																	.submit();
+														}else{
+															alert(msg);
+														}
+													});
+									$(".reply").each(function(i){
+										$(this).click(function(){
+											// .....
+											
+											var table=$(this).parent().parent().parent();
+											
+											var boardId=table.children(":eq(2)").children(":eq(0)").html();
+											var parentReplyId=table.children(":eq(2)").children(":eq(1)").html();
+											var depth=table.children(":eq(3)").children(":eq(0)").html();
+											var orderNo=table.children(":eq(3)").children(":eq(1)").html();
+											var replyId=table.children(":eq(4)").children(":eq(0)").html();
+													
+											var commentForm = $("#myform").detach();
+											var replyTable = $(this).parent().parent().parent().parent();
+											replyTable.after(commentForm); 
+														
+											$("#depth").val(parseInt(depth)+1);
+											$("#parentReplyId").val(replyId); //부모의 replyId 값
+											$("#boardId").val(boardId);
+											$("#orderNo").val(orderNo);
+										});
+									});
+									
 								});
 							</script>
 						</div>
@@ -439,8 +543,42 @@
 						</div>
 					</form>
 
+					<hr>
 					<!-- Content Row -->
-					<div class="row"></div>
+					<div class="container mt-2">
+						<form role="form" id="commentForm">
+							<div class="row">
+								<div class="col-lg-11 col-md-11 mb-2">
+									<textarea class="form-control" id="COMMENT" name="COMMENT"
+										rows="5" placeholder="댓글을 작성하세요"></textarea>
+								</div>
+								<button class="col-md-1 mb-2 btn btn-primary" id="commentBTN"
+									name="commentBTN">등록</button>
+							</div>
+							<div class="row">
+								<div class="col-lg-4 col-md-4">
+									<input type="text" class="form-control" id="NAME" name="NAME" placeholder="아이디">
+								</div>
+								<div class="col-lg-4 col-md-4">
+									<input type="password" class="form-control"" id="PW" name="PW" placeholder="비밀번호">
+								</div>
+								<div class="col-lg-1 col-md-1">
+									<a id="commentReplyBTN" class="reply">답글</a>
+									<input type="hidden" id="BOARD_IDX" name="BORAD_IDX" value="${boardDetail.IDX }"/>
+									<input type="hidden" id="DEPTH" name="DEPTH" value="0"/>
+									<input type="hidden" id="PARENT_IDX" name="PARENT_IDX" value="0"/>
+									<input type="hidden" id="ORDER_IDX" name="ORDER_IDX" value="-1"/>
+				
+								</div>
+								<div class="col-lg-1 col-md-1">
+									<a id="commentUpdateBTN">수정</a>
+								</div>
+								<div class="col-lg-1 col-md-1">
+									<a id="commentDeleteBTN">삭제</a>
+								</div>
+							</div>
+						</form>
+					</div>
 
 				</div>
 

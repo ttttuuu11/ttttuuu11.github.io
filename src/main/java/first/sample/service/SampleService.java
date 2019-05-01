@@ -32,6 +32,8 @@ public interface SampleService {
 	
 	void insertCategory0(Map<String, Object> map) throws Exception;
 
+	void insertComment(Map<String, Object> map) throws Exception;
+
 	Map<String, Object> selectBoardDetail(Map<String, Object> map) throws Exception;
 
 	void updateBoard(Map<String, Object> map) throws Exception;

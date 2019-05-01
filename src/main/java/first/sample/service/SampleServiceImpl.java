@@ -93,6 +93,11 @@ public class SampleServiceImpl implements SampleService {
 	}
 
 	@Override
+	public void insertComment(Map<String, Object> map) throws Exception {
+		sampleDAO.insertComment(map);
+	}
+	
+	@Override
 	public List<Map<String, Object>> infiniteScrollDown(Map<String,Object> map) throws Exception {
 
 		return sampleDAO.infiniteScrollDown(map);

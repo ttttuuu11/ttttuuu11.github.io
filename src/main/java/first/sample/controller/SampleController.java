@@ -87,11 +87,24 @@ public class SampleController {
 	@RequestMapping(value = "/sample/AddCategory.do")
 	public ModelAndView AddCategory(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("redirect:/sample/openIndex.do");
-		if(commandMap.get("addParentCategoryIdx").toString()=="0") {
+		if (commandMap.get("addParentCategoryIdx").toString() == "0") {
 			sampleService.insertCategory0(commandMap.getMap());
-		}else {
+		} else {
 			sampleService.insertCategory(commandMap.getMap());
-		}return mv;
+		}
+		return mv;
+	}
+
+	@RequestMapping(value = "/sample/AddComment.do")
+	public ModelAndView AddComment(CommandMap commandMap, @RequestParam("IDX") Object IDX) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:/sample/viewDetail.do");
+		commandMap.put("IDX", IDX);
+		sampleService.insertComment(commandMap.getMap());
+
+		Map<String, Object> boardDetail = sampleService.selectBoardDetail(commandMap.getMap());
+		mv.addObject("boardDetail", boardDetail);
+		mv.addObject("IDX", IDX);
+		return mv;
 	}
 
 	// 카테고리 별 게시글 리스트
@@ -118,7 +131,7 @@ public class SampleController {
 			}
 		}
 		mv.addObject("listAll", listAll);
-		mv.addObject("CATEGORY_IDX",CATEGORY_IDX.toString());
+		mv.addObject("CATEGORY_IDX", CATEGORY_IDX.toString());
 		mv.addObject("sidebarListParentNull", sidebarListParentNull);
 
 		return mv;
@@ -128,15 +141,14 @@ public class SampleController {
 	@RequestMapping(value = "/sample/viewListSearch.do")
 	public ModelAndView viewListSearch(Map<String, Object> commandMap, @RequestParam("c") Object CATEGORY_IDX,
 			@RequestParam("s") String SEARCH_WORD) throws Exception {
-		
+
 		ModelAndView mv = new ModelAndView("/sample/viewList");
 		List<Map<String, Object>> listSearch;
 
 		commandMap.put("CATEGORY_IDX", CATEGORY_IDX);
 		commandMap.put("SEARCH_WORD", SEARCH_WORD);
-		
-		
-		if (((String)CATEGORY_IDX).equals("0")) { // object 형 자료형 비교
+
+		if (((String) CATEGORY_IDX).equals("0")) { // object 형 자료형 비교
 			listSearch = sampleService.selectBoardListSearch0(commandMap);
 		} else {
 			listSearch = sampleService.selectBoardListSearch(commandMap);
@@ -156,7 +168,7 @@ public class SampleController {
 			}
 		}
 		mv.addObject("listAll", listSearch);
-		mv.addObject("CATEGORY_IDX",CATEGORY_IDX.toString());
+		mv.addObject("CATEGORY_IDX", CATEGORY_IDX.toString());
 		mv.addObject("sidebarListParentNull", sidebarListParentNull);
 
 		return mv;
@@ -165,12 +177,10 @@ public class SampleController {
 	@RequestMapping(value = "/sample/viewDetail.do")
 	public ModelAndView viewDetail(Map<String, Object> commandMap, @RequestParam("IDX") Object IDX) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/viewDetail");
-		commandMap.put("IDX",IDX);
-		log.debug("먀핑성공");
+		commandMap.put("IDX", IDX);
 		Map<String, Object> boardDetail = sampleService.selectBoardDetail(commandMap);
-		log.debug("detail값은???:"+boardDetail);
-		mv.addObject("boardDetail",boardDetail);
-		mv.addObject("IDX",IDX);
+		mv.addObject("boardDetail", boardDetail);
+		mv.addObject("IDX", IDX);
 		return mv;
 	}
 
@@ -182,11 +192,12 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/sample/viewWrite.do")
-	public ModelAndView viewWrite(Map<String, Object> commandMap ,  @RequestParam("c") Object CATEGORY_IDX) throws Exception {
+	public ModelAndView viewWrite(Map<String, Object> commandMap, @RequestParam("c") Object CATEGORY_IDX)
+			throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/viewWrite");
 		commandMap.put("CATEGORY_IDX", CATEGORY_IDX);
-		log.debug("write페이지에서의 카테고리 인덱스 :"+CATEGORY_IDX.toString());
-		mv.addObject("CATEGORY_IDX",CATEGORY_IDX.toString());
+		log.debug("write페이지에서의 카테고리 인덱스 :" + CATEGORY_IDX.toString());
+		mv.addObject("CATEGORY_IDX", CATEGORY_IDX.toString());
 		return mv;
 	}
 
@@ -206,17 +217,18 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/sample/openBoardWrite.do")
-	public ModelAndView openBoardWrite(CommandMap commandMap,  @RequestParam("c") Object CATEGORY_IDX) throws Exception {
+	public ModelAndView openBoardWrite(CommandMap commandMap, @RequestParam("c") Object CATEGORY_IDX) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/boardWrite");
 		commandMap.put("CATEGORY_IDX", CATEGORY_IDX);
-		
-		mv.addObject("CATEGORY_IDX",CATEGORY_IDX.toString());
+
+		mv.addObject("CATEGORY_IDX", CATEGORY_IDX.toString());
 		return mv;
 	}
 
 	@RequestMapping(value = "/sample/insertBoard.do")
 	public ModelAndView insertBoard(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/sample/viewList.do?c="+commandMap.get("CATEGORY_IDX").toString());
+		ModelAndView mv = new ModelAndView(
+				"redirect:/sample/viewList.do?c=" + commandMap.get("CATEGORY_IDX").toString());
 		sampleService.insertBoard(commandMap.getMap());
 		return mv;
 	}
@@ -247,44 +259,37 @@ public class SampleController {
 
 	@RequestMapping(value = "/sample/deleteBoard.do")
 	public ModelAndView deleteBoard(CommandMap commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView("redirect:/sample/viewList.do?c="+commandMap.get("CATEGORY_IDX").toString());
-		log.debug("delete에서 의 카테고리인덱스 : "+commandMap.get("CATEGORY_IDX").toString());
+		ModelAndView mv = new ModelAndView(
+				"redirect:/sample/viewList.do?c=" + commandMap.get("CATEGORY_IDX").toString());
+		log.debug("delete에서 의 카테고리인덱스 : " + commandMap.get("CATEGORY_IDX").toString());
 
 		sampleService.deleteBoard(commandMap.getMap());
 		return mv;
 	}
 
-	@RequestMapping(value = "/sample/infiniteScrollDown.do", method=RequestMethod.POST)
-	public @ResponseBody List<Map<String, Object>> infiniteScrollDownPost(@RequestBody Map<String,Object> commandMap) throws Exception {
-		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))-1;
-	
-		commandMap.put("bnoToStart",bnoToStart);
-		
-		log.debug("새롭게 시작될 인덱스 ::"+bnoToStart.toString());
-		log.debug("카테고리 인덱스:"+(String) commandMap.get("CATEGORY_IDX"));
-		List<Map<String,Object>> listAll = sampleService.infiniteScrollDown(commandMap);
-		
-		log.debug("새로운 페이지!!"+listAll);
-		
-		return listAll;
-	}
-	
-	@RequestMapping(value = "/sample/infiniteScrollUp.do", method=RequestMethod.POST)
-	public @ResponseBody List<Map<String, Object>> infiniteScrollUpPost(@RequestBody Map<String,Object> commandMap) throws Exception {
-		log.debug("얍:"+commandMap.get("bno"));
-		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno")))+1;
+	@RequestMapping(value = "/sample/infiniteScrollDown.do", method = RequestMethod.POST)
+	public @ResponseBody List<Map<String, Object>> infiniteScrollDownPost(@RequestBody Map<String, Object> commandMap)
+			throws Exception {
+		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno"))) - 1;
 
-		commandMap.put("bnoToStart",bnoToStart);
-		
-		log.debug("새롭게 시작될 인덱스 ::"+bnoToStart.toString());
-		log.debug("카테고리 인덱스:"+(String) commandMap.get("CATEGORY_IDX"));
-		List<Map<String,Object>> listAll = sampleService.infiniteScrollUp(commandMap);
-		
-		log.debug("새로운 페이지!!"+listAll);
-		
+		commandMap.put("bnoToStart", bnoToStart);
+
+		List<Map<String, Object>> listAll = sampleService.infiniteScrollDown(commandMap);
+
 		return listAll;
 	}
-	
+
+	@RequestMapping(value = "/sample/infiniteScrollUp.do", method = RequestMethod.POST)
+	public @ResponseBody List<Map<String, Object>> infiniteScrollUpPost(@RequestBody Map<String, Object> commandMap)
+			throws Exception {
+		Integer bnoToStart = (Integer.parseInt((String) commandMap.get("bno"))) + 1;
+
+		commandMap.put("bnoToStart", bnoToStart);
+		List<Map<String, Object>> listAll = sampleService.infiniteScrollUp(commandMap);
+
+		return listAll;
+	}
+
 	@RequestMapping(value = "/sample/imageUpload.do", method = RequestMethod.POST)
 	public void communityImageUpload(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam MultipartFile upload) {
@@ -304,15 +309,13 @@ public class SampleController {
 			out.write(bytes);
 			String callback = request.getParameter("CKEditorFuncNum");
 
-		
-			
 			printWriter = response.getWriter();
 			String fileUrl = "/first/imageUpload/" + fileName;
 			printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(" + callback
-					+ ",'" +fileUrl +"','이미지를 업로드 하였습니다.'" + ")</script>");
+					+ ",'" + fileUrl + "','이미지를 업로드 하였습니다.'" + ")</script>");
 			printWriter.flush();
 
-		} catch (IOException e) {	
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
