@@ -614,7 +614,7 @@
 									<div class="card shadow mb-4">
 										<div class="card-header py-3">
 											<h6 class="m-0 font-weight-bold text-primary">${item.TITLE }<span
-													class="text-danger">&nbsp[${item.HIT_CNT }]</span>
+													class="text-danger">[${item.HIT_CNT }]</span>
 											</h6>
 											<input type="hidden" id="IDX" value="${item.IDX }">
 										</div>

@@ -60,6 +60,10 @@
 .dropdown_list {
 	left-margin: 10px;
 }
+
+textarea[readonly] {
+	background-color: white !important;
+}
 </style>
 
 </head>
@@ -471,7 +475,7 @@
 																	.removeContents('advanced');
 															break;
 														}
-													});		
+													});
 								});
 							</script>
 
@@ -480,59 +484,101 @@
 									$("#commentBTN")
 											.click(
 													function() {
-														var msg="댓글을 다시 확인해주세요";
+														var msg = "댓글을 다시 확인해주세요";
 														var state = true;
-														var IDX = $("#BOARD_IDX").val();
+														var IDX = $(
+																"#BOARD_IDX")
+																.val();
 
-														if(!$("#PW").val()){
-															msg="비밀번호를 입력해주세요";
-															state=false;
+														if (!$("#PW").val()) {
+															msg = "비밀번호를 입력해주세요";
+															state = false;
 														}
-														if(!$("#NAME").val()){
-															msg="아이디를 입력해주세요";
-															state=false;
+														if (!$("#NAME").val()) {
+															msg = "아이디를 입력해주세요";
+															state = false;
 														}
-														if(!$("#COMMENT").val()){
-															msg="내용을 입력해주세요";
-															state=false;
+														if (!$("#COMMENT")
+																.val()) {
+															msg = "내용을 입력해주세요";
+															state = false;
 														}
-														
-														if(state){
+
+														if (state) {
 															$("#commentForm")
-																	.attr("action",
-																			"/first/sample/AddComment.do?IDX="+IDX);
+																	.attr(
+																			"action",
+																			"/first/sample/AddComment.do?IDX="
+																					+ IDX);
 															$("#commentForm")
-																	.attr("method",
+																	.attr(
+																			"method",
 																			"post");
 															$("#commentForm")
 																	.submit();
-														}else{
+														} else {
 															alert(msg);
 														}
 													});
-									$(".reply").each(function(i){
-										$(this).click(function(){
-											// .....
-											
-											var table=$(this).parent().parent().parent();
-											
-											var boardId=table.children(":eq(2)").children(":eq(0)").html();
-											var parentReplyId=table.children(":eq(2)").children(":eq(1)").html();
-											var depth=table.children(":eq(3)").children(":eq(0)").html();
-											var orderNo=table.children(":eq(3)").children(":eq(1)").html();
-											var replyId=table.children(":eq(4)").children(":eq(0)").html();
-													
-											var commentForm = $("#myform").detach();
-											var replyTable = $(this).parent().parent().parent().parent();
-											replyTable.after(commentForm); 
-														
-											$("#depth").val(parseInt(depth)+1);
-											$("#parentReplyId").val(replyId); //부모의 replyId 값
-											$("#boardId").val(boardId);
-											$("#orderNo").val(orderNo);
-										});
-									});
-									
+									$(".reply")
+											.each(
+													function(i) {
+														$(this)
+																.click(
+																		function() {
+																			// .....
+
+																			var table = $(
+																					this)
+																					.parent();
+
+																			var boardId = table
+																					.children(
+																							":eq(1)")
+																					.html();
+																			var depth = table
+																					.children(
+																							":eq(2)")
+																					.html();
+																			var orderNo = table
+																					.children(
+																							":eq(4)")
+																					.html();
+																			var replyId = table
+																					.children(
+																							":eq(3)")
+																					.html();
+
+																			var commentForm = $(
+																					"#commentForm")
+																					.detach();
+																			var replyF = $(
+																					this)
+																					.parent()
+																					.parent()
+																					.parent();
+																			replyF
+																					.after(commentForm);
+
+																			$(
+																					"#depth")
+																					.val(
+																							parseInt(depth) + 1);
+																			$(
+																					"#parentReplyId")
+																					.val(
+																							replyId); //부모의 replyId 값
+																			$(
+																					"#boardId")
+																					.val(
+																							boardId);
+																			$(
+																					"#orderNo")
+																					.val(
+																							orderNo);
+																		});
+													});
+
 								});
 							</script>
 						</div>
@@ -544,38 +590,63 @@
 					</form>
 
 					<hr>
+
+					<c:forEach var="item" items="${commentList }">
+						<div class="container mt-2">
+							<div class="commentF">
+								<div class="row">
+									<h6>
+										&ensp;&ensp;ID:&nbsp;${item.NAME }&ensp;<small
+											style="color: #808080">${item.CREA_DTM }</small>
+									</h6>
+								</div>
+								<div class="row">
+									<div class="col-lg-12 col-md-12 mb-1 mt-1">
+										<textarea class="form-control no-gray" id="COMMENT"
+											name="COMMENT" rows="5" readonly="readonly">${item.CONTENTS }</textarea>
+									</div>
+								</div>
+								<div class="row flex-row-reverse">
+									<div class="col-lg-1 col-md-2">
+										<a id="commentReplyBTN" class="reply">답글</a> <input
+											type="hidden" id="BOARD_IDX" name="BORAD_IDX"
+											value="${boardDetail.IDX }" /> <input type="hidden"
+											id="DEPTH" name="DEPTH" value="0" /> <input type="hidden"
+											id="PARENT_IDX" name="PARENT_IDX" value="0" /> <input
+											type="hidden" id="ORDER_IDX" name="ORDER_IDX" value="-1" />
+
+									</div>
+									<div class="col-lg-1 col-md-2">
+										<a id="commentUpdateBTN">수정</a>
+									</div>
+									<div class="col-lg-1 col-md-2">
+										<a id="commentDeleteBTN">삭제</a>
+									</div>
+								</div>
+							</div>
+							<hr>
+						</div>
+					</c:forEach>
 					<!-- Content Row -->
 					<div class="container mt-2">
 						<form role="form" id="commentForm">
 							<div class="row">
-								<div class="col-lg-11 col-md-11 mb-2">
+								<div class="col-lg-4 col-md-4">
+									<input type="text" class="form-control" id="NAME" name="NAME"
+										placeholder="아이디">
+								</div>
+								<div class="col-lg-4 col-md-4">
+									<input type="password" class="form-control" " id="PW" name="PW"
+										placeholder="비밀번호">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-11 col-md-11 mb-1 mt-1">
 									<textarea class="form-control" id="COMMENT" name="COMMENT"
 										rows="5" placeholder="댓글을 작성하세요"></textarea>
 								</div>
 								<button class="col-md-1 mb-2 btn btn-primary" id="commentBTN"
 									name="commentBTN">등록</button>
-							</div>
-							<div class="row">
-								<div class="col-lg-4 col-md-4">
-									<input type="text" class="form-control" id="NAME" name="NAME" placeholder="아이디">
-								</div>
-								<div class="col-lg-4 col-md-4">
-									<input type="password" class="form-control"" id="PW" name="PW" placeholder="비밀번호">
-								</div>
-								<div class="col-lg-1 col-md-1">
-									<a id="commentReplyBTN" class="reply">답글</a>
-									<input type="hidden" id="BOARD_IDX" name="BORAD_IDX" value="${boardDetail.IDX }"/>
-									<input type="hidden" id="DEPTH" name="DEPTH" value="0"/>
-									<input type="hidden" id="PARENT_IDX" name="PARENT_IDX" value="0"/>
-									<input type="hidden" id="ORDER_IDX" name="ORDER_IDX" value="-1"/>
-				
-								</div>
-								<div class="col-lg-1 col-md-1">
-									<a id="commentUpdateBTN">수정</a>
-								</div>
-								<div class="col-lg-1 col-md-1">
-									<a id="commentDeleteBTN">삭제</a>
-								</div>
 							</div>
 						</form>
 					</div>

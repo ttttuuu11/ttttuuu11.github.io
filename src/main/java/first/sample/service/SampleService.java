@@ -8,6 +8,8 @@ public interface SampleService {
 
 	List<Map<String, Object>> selectBoardListAll(Map<String, Object> map) throws Exception;
 	
+	List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception;
+
 	List<Map<String, Object>> selectBoardListSearch(Map<String, Object> map) throws Exception;
 	
 	List<Map<String, Object>> selectBoardListSearch0(Map<String, Object> map) throws Exception;
@@ -39,5 +41,7 @@ public interface SampleService {
 	void updateBoard(Map<String, Object> map) throws Exception;
 
 	void deleteBoard(Map<String, Object> map) throws Exception;
+
+	void addReplyComment(Map<String, Object> map) throws Exception;
 
 }

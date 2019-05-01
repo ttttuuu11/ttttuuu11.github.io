@@ -424,20 +424,10 @@
 
 						// Let the trash be droppable, accepting the gallery items
 						$trash.droppable({
-							accept : "#gallery > .studyCard",
-							classes : {
-								"ui-droppable-active" : "ui-state-highlight"
-							},
 							drop : function(event, ui) {
-								deleteImage(ui.draggable);
+								console.log("휴지통 들어감");
 							}
 						});
-
-						function deleteImage($item) {
-							$item.effect("highlight", {
-								color : 'blue'
-							}, 0);
-						}
 
 						// Image recycle function
 						function recycleImage($item) {
@@ -501,13 +491,13 @@
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">학습 내용</h1>
-						<div id="trash">
+						<h1 class="h3 mb-0 text-gray-800 col-lg-3 col-md-3">학습 내용</h1>
+						<div id="trash col-lg-6 col-md-6">
 							<img src="<c:url value='/resources/img/trashB.png'/>" width="30"
 								height="30">
 						</div>
 						<a href="#"
-							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"
+							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm col-lg-3 col-md-3"
 							data-toggle="modal" data-target="#studyWrite">&nbsp&nbsp글쓰기&nbsp&nbsp</a>
 					</div>
 					<hr>

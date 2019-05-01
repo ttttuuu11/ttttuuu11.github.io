@@ -100,8 +100,9 @@ public class SampleController {
 		ModelAndView mv = new ModelAndView("redirect:/sample/viewDetail.do");
 		commandMap.put("IDX", IDX);
 		sampleService.insertComment(commandMap.getMap());
-
+		List<Map<String, Object>> commentList = sampleService.selectCommentList(commandMap.getMap());
 		Map<String, Object> boardDetail = sampleService.selectBoardDetail(commandMap.getMap());
+		mv.addObject("commentList",commentList);
 		mv.addObject("boardDetail", boardDetail);
 		mv.addObject("IDX", IDX);
 		return mv;
@@ -178,9 +179,11 @@ public class SampleController {
 	public ModelAndView viewDetail(Map<String, Object> commandMap, @RequestParam("IDX") Object IDX) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/viewDetail");
 		commandMap.put("IDX", IDX);
+		List<Map<String, Object>> commentList = sampleService.selectCommentList(commandMap);
 		Map<String, Object> boardDetail = sampleService.selectBoardDetail(commandMap);
 		mv.addObject("boardDetail", boardDetail);
 		mv.addObject("IDX", IDX);
+		mv.addObject("commentList",commentList);
 		return mv;
 	}
 

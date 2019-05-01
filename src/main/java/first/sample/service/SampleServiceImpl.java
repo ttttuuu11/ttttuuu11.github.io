@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import first.sample.dao.CommentDAO;
 import first.sample.dao.SampleDAO;
 
 @Service("sampleService")
@@ -17,32 +18,39 @@ public class SampleServiceImpl implements SampleService {
 	@Resource(name = "sampleDAO")
 	private SampleDAO sampleDAO;
 
+	@Resource(name = "commentDAO")
+	private CommentDAO commentDAO;
+	
 	@Override
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
 		return sampleDAO.selectBoardList(map);
 	}
 
 	@Override
+	public List<Map<String, Object>> selectCommentList(Map<String, Object> map) throws Exception {
+		return commentDAO.selectCommentList(map);
+	}
+
+	@Override
 	public List<Map<String, Object>> selectBoardListAll(Map<String, Object> map) throws Exception {
 		return sampleDAO.selectBoardListAll(map);
 	}
-	
-	
+
 	@Override
 	public List<Map<String, Object>> selectBoardListSearch(Map<String, Object> map) throws Exception {
 		return sampleDAO.selectBoardListSearch(map);
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> selectBoardListSearch0(Map<String, Object> map) throws Exception {
 		return sampleDAO.selectBoardListSearch0(map);
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> selectStudyBoardList(Map<String, Object> map) throws Exception {
 		return sampleDAO.selectStudyBoardList(map);
 	}
-	
+
 	@Override
 	public void insertBoard(Map<String, Object> map) throws Exception {
 		sampleDAO.insertBoard(map);
@@ -68,7 +76,7 @@ public class SampleServiceImpl implements SampleService {
 	@Override
 	public void insertStudyBoard(Map<String, Object> map) throws Exception {
 		sampleDAO.insertStudyBoard(map);
-		
+
 	}
 
 	@Override
@@ -96,9 +104,9 @@ public class SampleServiceImpl implements SampleService {
 	public void insertComment(Map<String, Object> map) throws Exception {
 		sampleDAO.insertComment(map);
 	}
-	
+
 	@Override
-	public List<Map<String, Object>> infiniteScrollDown(Map<String,Object> map) throws Exception {
+	public List<Map<String, Object>> infiniteScrollDown(Map<String, Object> map) throws Exception {
 
 		return sampleDAO.infiniteScrollDown(map);
 	}
@@ -107,10 +115,15 @@ public class SampleServiceImpl implements SampleService {
 	public void insertCategory0(Map<String, Object> map) throws Exception {
 		sampleDAO.insertCategory0(map);
 	}
+
 	@Override
-	public List<Map<String, Object>> infiniteScrollUp(Map<String,Object> map) throws Exception {
+	public List<Map<String, Object>> infiniteScrollUp(Map<String, Object> map) throws Exception {
 
 		return sampleDAO.infiniteScrollUp(map);
+	}
+	@Override
+	public void addReplyComment(Map<String, Object> map) throws Exception {
+		//commentDAO.addReplyComment(map);
 	}
 
 }
