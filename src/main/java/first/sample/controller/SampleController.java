@@ -269,6 +269,17 @@ public class SampleController {
 		sampleService.deleteBoard(commandMap.getMap());
 		return mv;
 	}
+	
+	@RequestMapping(value = "/sample/deleteStudy.do", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> deleteStudy(@RequestBody Map<String, Object> commandMap)
+			throws Exception {
+		log.debug("딜리트 시작 !!");
+		log.debug("스터디 인덱스 값 : "+commandMap.get("STUDY_IDX").toString());
+		commandMap.put("STUDY_IDX", commandMap.get("STUDY_IDX").toString());
+
+		Map<String,Object> studyBoard = sampleService.deleteStudyBoard(commandMap);
+		return studyBoard;
+	}
 
 	@RequestMapping(value = "/sample/infiniteScrollDown.do", method = RequestMethod.POST)
 	public @ResponseBody List<Map<String, Object>> infiniteScrollDownPost(@RequestBody Map<String, Object> commandMap)

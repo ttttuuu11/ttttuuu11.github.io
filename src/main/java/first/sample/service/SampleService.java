@@ -42,6 +42,8 @@ public interface SampleService {
 
 	void deleteBoard(Map<String, Object> map) throws Exception;
 
+	 Map<String, Object> deleteStudyBoard(Map<String, Object> map) throws Exception;
+
 	void addReplyComment(Map<String, Object> map) throws Exception;
 
 }

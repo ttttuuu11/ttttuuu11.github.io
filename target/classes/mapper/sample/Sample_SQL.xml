@@ -8,13 +8,13 @@
 		resultType="hashmap"> 
 		<![CDATA[ SELECT IDX, BOARD_IDX, PARENT_IDX, DEPTH, ORDER_IDX, NAME, PW, CONTENTS, CREA_DTM FROM TB_COMMENT  WHERE BOARD_IDX=#{IDX}]]>
 	</select>
-	
+
 	<!-- comment -->
-	<select id="selectMaxOrderIDXByParentReplyId" parameterType="hashmap"
-		resultType="hashmap"> 
+	<select id="selectMaxOrderIDXByParentReplyId"
+		parameterType="hashmap" resultType="hashmap"> 
 		<![CDATA[ SELECT MAX(orderNo) FROM comment START WITH PARENT_IDX=#{PARENT_IDX} CONNECT BY PRIOR IDX=PARENT_IDX ORDER BY orderNo DESC]]>
 	</select>
-	
+
 	<select id="selectBoardListAll" parameterType="hashmap"
 		resultType="hashmap"> 
 		<![CDATA[ SELECT IDX,left(CONTENTS, 40), TITLE, HIT_CNT, CREA_DTM FROM TB_BOARD WHERE DEL_GB = 'N' and CATEGORY_IDX=#{CATEGORY_IDX} ORDER BY IDX DESC limit 0,20]]>
@@ -29,7 +29,15 @@
 	</select>
 	<select id="selectStudyBoardList" parameterType="hashmap"
 		resultType="hashmap"> 
-		<![CDATA[ SELECT STUDY_IDX, date_format(CREATE_DATE, '%Y-%m-%d') as CREATE_DATE, TITLE,CONTENT FROM study_board ORDER BY STUDY_IDX DESC Limit 4]]>
+		<![CDATA[ SELECT STUDY_IDX, date_format(CREATE_DATE, '%Y-%m-%d') as CREATE_DATE, TITLE,CONTENT FROM study_board WHERE DEL_GB = 'N' ORDER BY STUDY_IDX DESC Limit 4]]>
+	</select>
+	<select id="selectStudyBoardOne" parameterType="hashmap"
+		resultType="hashmap"> 
+		<![CDATA[ 
+		SELECT STUDY_IDX, date_format(CREATE_DATE, '%Y-%m-%d') as CREATE_DATE, TITLE,CONTENT FROM (
+    	SELECT * FROM study_board WHERE DEL_GB = 'N' ORDER BY STUDY_IDX DESC limit 5
+		) study_board ORDER BY STUDY_IDX limit 1;
+		]]>
 	</select>
 	<select id="selectSidebarList" parameterType="hashmap"
 		resultType="hashmap"> 
@@ -78,6 +86,9 @@
 	</update>
 	<update id="deleteBoard" parameterType="hashmap"> 
 		<![CDATA[ UPDATE TB_BOARD SET DEL_GB = 'Y' WHERE IDX = #{IDX} ]]>
+	</update>
+	<update id="deleteStudyBoard" parameterType="hashmap"> 
+		<![CDATA[ UPDATE study_board SET DEL_GB = 'Y' WHERE STUDY_IDX = #{STUDY_IDX} ]]>
 	</update>
 
 </mapper>

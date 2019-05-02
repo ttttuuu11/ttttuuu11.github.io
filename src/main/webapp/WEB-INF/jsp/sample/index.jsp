@@ -411,76 +411,101 @@
 				<script>
 					$(function() {
 
-						// There's the gallery and the trash
-						var $gallery = $("#gallery"), $trash = $("#trash");
-
 						// Let the gallery items be draggable
-						$(".studyCard", $gallery).draggable({
-							cancel : "a.ui-icon", // clicking an icon won't initiate dragging
-							revert : "invalid", // when not dropped, the item will revert back to its initial position
-							containment : "document",
-							cursor : "move"
+						$(".studyCard").draggable({
+							revert : true
 						});
 
 						// Let the trash be droppable, accepting the gallery items
-						$trash.droppable({
-							drop : function(event, ui) {
-								console.log("휴지통 들어감");
-							}
-						});
+						$("#trash")
+								.droppable(
+										{
+											drop : function(event, ui) {
+												if (confirm("삭제하시겠습니까?")) {
 
-						// Image recycle function
-						function recycleImage($item) {
-							$item.fadeOut(function() {
-								$item.find("a.ui-icon-refresh").remove().end()
-										.css("width", "96px")
-										.append(trash_icon).find("img").css(
-												"height", "72px").end()
-										.appendTo($gallery).fadeIn();
-							});
-						}
+													var studyCard = ui.draggable;
+													var studyCardIdx = studyCard
+															.find(".studyIDX")
+															.val();
+													studyCard.remove()
 
-						// Image preview function, demonstrating the ui.dialog used as a modal window
-						function viewLargerImage($link) {
-							var src = $link.attr("href"), title = $link
-									.siblings("img").attr("alt"), $modal = $("img[src$='"
-									+ src + "']");
+													$
+															.ajax({
+																type : 'post', // 요청 method 방식
+																url : 'deleteStudy.do',// 요청할 서버의 url
+																headers : {
+																	"Content-Type" : "application/json",
+																	"X-HTTP-Method-Override" : "POST"
+																},
+																dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
+																data : JSON
+																		.stringify({ // 서버로 보낼 데이터 명시
+																			STUDY_IDX : studyCardIdx
+																		}),
+																success : function(
+																		data) {// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
+																	console
+																			.log(data);
+																	var str = "";
+																	// 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
+																	if (data != "") {
+																		//6. 서버로부터 받아온 data가 list이므로 이 각각의 원소에 접근하려면 each문을 사용한다.
+																		$(data)
+																				.each(
+																						// 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
+																						function() {
+																							console
+																									.log("data2"
+																											+ this);
+																							str += "<div class="+"'col-xl-3 col-md-6 mb-4 studyCard ui-draggable ui-draggable-handle '"+">"
+																									+ "<input type="+"'hidden'"+" class="+"'studyIDX'"
+																										+"value='"+this.STUDY_IDX+"'>"
 
-							if ($modal.length) {
-								$modal.dialog("open");
-							} else {
-								var img = $(
-										"<img alt='" + title + "' width='384' height='288' style='display: none; padding: 8px;' />")
-										.attr("src", src).appendTo("body");
-								setTimeout(function() {
-									img.dialog({
-										title : title,
-										width : 400,
-										modal : true
-									});
-								}, 1);
-							}
-						}
+																									+ "<div class="+"'card border-info shadow h-100'"+">"
+																									+ "<div class="+"'card-header'"+">"
+																									+ "<h6 class="+"'h6 mb-0 font-weight-bold text-gray-800 '"+">"
+																									+ this.TITLE
+																									+ "</h6>"
+																									+ "</div>"
+																									+ "<div class="+"'card-body'"+">"
+																									+ "<div class="+"'row no-gutters align-items-center'"+">"
+																									+ "<div class="+"'col mr-2'"+">"
+																									+ "<div"+" class="+"'text-xs font-weight-bold text-primary text-uppercase mb-1 '"+">"
+																									+ this.CREATE_DATE
+																									+ "</div>"
+																									+ "<div class="+"'h6 mb-0 font-weight-bold text-gray-800'"+">"
+																									+ this.CONTENT
+																									+ "</div>"
+																									+ "</div>"
+																									+ "<div class="+"'col-auto'"+">"
+																									+ "<i class="+"'fas fa-calendar fa-2x text-gray-300'"+">"
+																									+ "</i>"
+																									+ "</div>"
+																									+ "</div>"
+																									+ "</div>"
+																									+ "</div>"
+																									+ "</div>"
+																						});// each
+																		// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
+																		//$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
+																		$(
+																				".studyCard:last")
+																				.after(
+																						str);
+																		$(".studyCard").draggable({
+																			revert : true
+																		});
+																	}// if : data!=null
+																	else { // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..
+																		alert("더 불러올 데이터가 없습니다.");
+																	}// else
 
-						// Resolve the icons behavior with event delegation
-						$("div.gallery > .studyCard")
-								.on(
-										"click",
-										function(event) {
-											var $item = $(this), $target = $(event.target);
-
-											if ($target.is("a.ui-icon-trash")) {
-												deleteImage($item);
-											} else if ($target
-													.is("a.ui-icon-zoomin")) {
-												viewLargerImage($target);
-											} else if ($target
-													.is("a.ui-icon-refresh")) {
-												recycleImage($item);
+																}// success
+															});// ajax
+												}
 											}
-
-											return false;
 										});
+
 					});
 				</script>
 
@@ -491,13 +516,13 @@
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800 col-lg-3 col-md-3">학습 내용</h1>
-						<div id="trash col-lg-6 col-md-6">
-							<img src="<c:url value='/resources/img/trashB.png'/>" width="30"
-								height="30">
+						<h1 class="h3 mb-0 text-gray-800 ">학습 내용</h1>
+						<div id="trash">
+							<img src="<c:url value='/resources/img/trashB.png'/>" width="40"
+								height="40">
 						</div>
 						<a href="#"
-							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm col-lg-3 col-md-3"
+							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"
 							data-toggle="modal" data-target="#studyWrite">&nbsp&nbsp글쓰기&nbsp&nbsp</a>
 					</div>
 					<hr>
@@ -511,18 +536,6 @@
 										$("#myform").attr("method", "post");
 										$("#myform").submit();
 									});
-							$(".studyCard").draggable({
-								revert : true
-							});
-							$("#deleteArea").droppable({
-								accept : "studyCard",
-								classes : {
-									"ui-droppable-active" : "ui-state-default"
-								},
-								drop : function(event, ui) {
-									$(this).addClass("ui-state-highlight")
-								}
-							});
 						});
 					</script>
 
@@ -571,7 +584,9 @@
 
 						<!-- Earnings (Monthly) Card Example -->
 						<div class="col-xl-3 col-md-6 mb-4 studyCard" id="studyCard">
-							<div class="card border-primary shadow h-100 studyCard">
+							<input type="hidden" class="studyIDX"
+								value="${studyList[0].STUDY_IDX }">
+							<div class="card border-primary shadow h-100">
 								<div class="card-header">
 									<h6 class="h6 mb-0 font-weight-bold text-gray-800 ">${studyList[0].TITLE }</h6>
 								</div>
@@ -591,7 +606,10 @@
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-6 mb-4 studyCard ">
-							<div class="card border-info shadow h-100 studyCard">
+							<input type="hidden" class="studyIDX"
+								value="${studyList[1].STUDY_IDX }">
+
+							<div class="card border-info shadow h-100">
 								<div class="card-header">
 									<h6 class="h6 mb-0 font-weight-bold text-gray-800 ">${studyList[1].TITLE }</h6>
 								</div>
@@ -611,7 +629,10 @@
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-6 mb-4 studyCard">
-							<div class="card border-warning shadow h-100 studyCard">
+							<input type="hidden" class="studyIDX"
+								value="${studyList[2].STUDY_IDX }">
+
+							<div class="card border-warning shadow h-100 ">
 								<div class="card-header">
 									<h6 class="h6 mb-0 font-weight-bold text-gray-800 ">${studyList[2].TITLE }</h6>
 								</div>
@@ -631,7 +652,9 @@
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-6 mb-4 studyCard">
-							<div class="card border-secondary shadow h-100 studyCard">
+							<input type="hidden" class="studyIDX"
+								value="${studyList[3].STUDY_IDX }">
+							<div class="card border-secondary shadow h-100 ">
 								<div class="card-header">
 									<h6 class="h6 mb-0 font-weight-bold text-gray-800 ">${studyList[3].TITLE }</h6>
 								</div>
