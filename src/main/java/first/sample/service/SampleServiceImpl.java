@@ -130,6 +130,17 @@ public class SampleServiceImpl implements SampleService {
 		return resultMap;
 	}
 	@Override
+	public Map<String, Object> countComment(Map<String, Object> map) throws Exception {
+		sampleDAO.deleteStudyBoard(map);
+		Map<String, Object> resultMap = commentDAO.countComment(map);
+		return resultMap;
+	}
+	@Override
+	public Map<String, Object> selectCategoryName(Map<String, Object> map) throws Exception {
+		Map<String, Object> resultMap = sampleDAO.selectCategoryName(map);
+		return resultMap;
+	}
+	@Override
 	public void addReplyComment(Map<String, Object> map) throws Exception {
 		//commentDAO.addReplyComment(map);
 	}

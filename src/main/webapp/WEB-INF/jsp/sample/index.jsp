@@ -64,7 +64,7 @@
 .ui-drop-hover {
 	background-color: #D3D3D3 !important;
 	border: 2px solid #bbb;
-	background-color: rgba( 255, 255, 255, 0.5 );
+	background-color: rgba(255, 255, 255, 0.5);
 }
 </style>
 
@@ -427,11 +427,17 @@
 								.droppable(
 										{
 											over : function(event, ui) {
-												ui.draggable.children('div').addClass('ui-drop-hover');
+												ui.draggable
+														.children('div')
+														.addClass(
+																'ui-drop-hover');
 												console.log("호버호버");
 											},
 											out : function(event, ui) {
-												ui.draggable.children('div').removeClass('ui-drop-hover');
+												ui.draggable
+														.children('div')
+														.removeClass(
+																'ui-drop-hover');
 
 												console.log("호버탈출");
 											},
@@ -442,88 +448,89 @@
 													var studyCardIdx = studyCard
 															.find(".studyIDX")
 															.val();
-													studyCard
-															.remove()
+													studyCard.remove();
 
-															.ajax(
-																	{
-																		type : 'post', // 요청 method 방식
-																		url : 'deleteStudy.do',// 요청할 서버의 url
-																		headers : {
-																			"Content-Type" : "application/json",
-																			"X-HTTP-Method-Override" : "POST"
-																		},
-																		dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
-																		data : JSON
-																				.stringify({ // 서버로 보낼 데이터 명시
-																					STUDY_IDX : studyCardIdx
-																				}),
-																		success : function(
-																				data) {// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
-																			console
-																					.log(data);
-																			var str = "";
-																			// 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
-																			if (data != "") {
-																				//6. 서버로부터 받아온 data가 list이므로 이 각각의 원소에 접근하려면 each문을 사용한다.
-																				$(
-																						data)
-																						.each(
-																								// 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
-																								function() {
-																									console
-																											.log("data2"
-																													+ this);
-																									str += "<div class="+"'col-xl-3 col-md-6 mb-4 studyCard ui-draggable ui-draggable-handle '"+">"
-																											+ "<input type="+"'hidden'"+" class="+"'studyIDX'"
+													$
+															.ajax({
+																type : 'post', // 요청 method 방식
+																url : 'deleteStudy.do',// 요청할 서버의 url
+																headers : {
+																	"Content-Type" : "application/json",
+																	"X-HTTP-Method-Override" : "POST"
+																},
+																dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
+																data : JSON
+																		.stringify({ // 서버로 보낼 데이터 명시
+																			STUDY_IDX : studyCardIdx
+																		}),
+																success : function(
+																		data) {// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
+																	console
+																			.log(data);
+																	var str = "";
+																	// 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
+																	if (data != "") {
+																		//6. 서버로부터 받아온 data가 list이므로 이 각각의 원소에 접근하려면 each문을 사용한다.
+																		$(data)
+																				.each(
+																						// 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
+																						function() {
+																							console
+																									.log("data2"
+																											+ this);
+																							str += "<div class="+"'col-xl-3 col-md-6 mb-4 studyCard ui-draggable ui-draggable-handle '"+">"
+																									+ "<input type="+"'hidden'"+" class="+"'studyIDX'"
 																										+"value='"+this.STUDY_IDX+"'>"
 
-																											+ "<div class="+"'card border-info shadow h-100'"+">"
-																											+ "<div class="+"'card-header'"+">"
-																											+ "<h6 class="+"'h6 mb-0 font-weight-bold text-gray-800 '"+">"
-																											+ this.TITLE
-																											+ "</h6>"
-																											+ "</div>"
-																											+ "<div class="+"'card-body'"+">"
-																											+ "<div class="+"'row no-gutters align-items-center'"+">"
-																											+ "<div class="+"'col mr-2'"+">"
-																											+ "<div"+" class="+"'text-xs font-weight-bold text-primary text-uppercase mb-1 '"+">"
-																											+ this.CREATE_DATE
-																											+ "</div>"
-																											+ "<div class="+"'h6 mb-0 font-weight-bold text-gray-800'"+">"
-																											+ this.CONTENT
-																											+ "</div>"
-																											+ "</div>"
-																											+ "<div class="+"'col-auto'"+">"
-																											+ "<i class="+"'fas fa-calendar fa-2x text-gray-300'"+">"
-																											+ "</i>"
-																											+ "</div>"
-																											+ "</div>"
-																											+ "</div>"
-																											+ "</div>"
-																											+ "</div>"
-																								});// each
-																				// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
-																				//$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
-																				$(
-																						".studyCard:last")
-																						.after(
-																								str);
-																				$(
-																						".studyCard")
-																						.draggable(
-																								{
-																									revert : true
-																								});
-																			}// if : data!=null
-																			else { // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..
-																				alert("더 불러올 데이터가 없습니다.");
-																			}// else
+																									+ "<div class="+"'card border-info shadow h-100'"+">"
+																									+ "<div class="+"'card-header'"+">"
+																									+ "<h6 class="+"'h6 mb-0 font-weight-bold text-gray-800 '"+">"
+																									+ this.TITLE
+																									+ "</h6>"
+																									+ "</div>"
+																									+ "<div class="+"'card-body'"+">"
+																									+ "<div class="+"'row no-gutters align-items-center'"+">"
+																									+ "<div class="+"'col mr-2'"+">"
+																									+ "<div"+" class="+"'text-xs font-weight-bold text-primary text-uppercase mb-1 '"+">"
+																									+ this.CREATE_DATE
+																									+ "</div>"
+																									+ "<div class="+"'h6 mb-0 font-weight-bold text-gray-800'"+">"
+																									+ this.CONTENT
+																									+ "</div>"
+																									+ "</div>"
+																									+ "<div class="+"'col-auto'"+">"
+																									+ "<i class="+"'fas fa-calendar fa-2x text-gray-300'"+">"
+																									+ "</i>"
+																									+ "</div>"
+																									+ "</div>"
+																									+ "</div>"
+																									+ "</div>"
+																									+ "</div>"
+																						});// each
+																		// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
+																		//$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
+																		$(
+																				".studyCard:last")
+																				.after(
+																						str);
+																		$(
+																				".studyCard")
+																				.draggable(
+																						{
+																							revert : true
+																						});
+																	}// if : data!=null
+																	else { // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..
+																		alert("더 불러올 데이터가 없습니다.");
+																	}// else
 
-																		}// success
-																	});// ajax
-												}else{
-													ui.draggable.children('div').removeClass('ui-drop-hover');
+																}// success
+															});// ajax
+												} else {
+													ui.draggable
+															.children('div')
+															.removeClass(
+																	'ui-drop-hover');
 												}
 											}
 										});
@@ -545,7 +552,7 @@
 						</div>
 						<a href="#"
 							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"
-							data-toggle="modal" data-target="#studyWrite">&nbsp&nbsp글쓰기&nbsp&nbsp</a>
+							data-toggle="modal" data-target="#studyWrite">&nbsp;추가&nbsp;</a>
 					</div>
 					<hr>
 
@@ -703,6 +710,41 @@
 					<div class="row">
 
 
+
+
+						<!-- Area Chart -->
+						<div class="col-xl-8 col-lg-7">
+							<div class="card shadow mb-4">
+								<!-- Card Header - Dropdown -->
+								<div
+									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+									<h6 class="m-0 font-weight-bold text-primary">포트폴리오</h6>
+									<!-- 포트폴리오 보기. -->
+									<div class="dropdown no-arrow">
+										<a class="dropdown-toggle" href="#" role="button"
+											id="dropdownMenuLink" data-toggle="dropdown"
+											aria-haspopup="true" aria-expanded="false"> <i
+											class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+										</a>
+										<div
+											class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+											aria-labelledby="dropdownMenuLink">
+											<div class="dropdown-header">Dropdown Header:</div>
+											<a class="dropdown-item" href="#">Action</a> <a
+												class="dropdown-item" href="#">Another action</a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#">Something else here</a>
+										</div>
+									</div>
+								</div>
+								<!-- Card Body -->
+								<div class="card-body">
+									<div class="chart-area">
+										<canvas id="myAreaChart"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
 						<!-- Pie Chart -->
 						<div class="col-xl-4 col-lg-5">
 							<div class="card shadow mb-4">
@@ -737,40 +779,6 @@
 								</div>
 							</div>
 						</div>
-
-						<!-- Area Chart -->
-						<div class="col-xl-8 col-lg-7">
-							<div class="card shadow mb-4">
-								<!-- Card Header - Dropdown -->
-								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary">제목...</h6>
-									<div class="dropdown no-arrow">
-										<a class="dropdown-toggle" href="#" role="button"
-											id="dropdownMenuLink" data-toggle="dropdown"
-											aria-haspopup="true" aria-expanded="false"> <i
-											class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-										</a>
-										<div
-											class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-											aria-labelledby="dropdownMenuLink">
-											<div class="dropdown-header">Dropdown Header:</div>
-											<a class="dropdown-item" href="#">Action</a> <a
-												class="dropdown-item" href="#">Another action</a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">Something else here</a>
-										</div>
-									</div>
-								</div>
-								<!-- Card Body -->
-								<div class="card-body">
-									<div class="chart-area">
-										<canvas id="myAreaChart"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-
 					</div>
 					<hr>
 
@@ -893,31 +901,57 @@
 							</div>
 
 							<c:forEach var="item" items="${list }">
-								<div class="card shadow mb-4">
-									<div class="card-header py-3">
-										<h6 class="m-0 font-weight-bold text-primary">${item.TITLE }<span
-												class="text-danger">&nbsp[${item.HIT_CNT }]</span>
-										</h6>
-										<input type="hidden" id="IDX" value="${item.IDX }">
+								<div>
+									<!-- Page Heading -->
+									<div
+										class="d-sm-flex align-items-center justify-content-between mb-4">
 									</div>
-									<div class="card-body">
-										<div class="text-center">
-											<img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-												style="width: 25rem;" src="img/undraw_posting_photo.svg"
-												alt="">
+
+									<div class="card shadow mb-4">
+										<div class="card-header py-3">
+											<div class="row justify-content-between">
+												<h6 class="m-0 ml-3 font-weight-bold text-primary">${item.TITLE }
+												</h6>
+												<input type="hidden" id="IDX" value="${item.IDX }">
+												<div class="row mr-3" style="text-align: left">
+													<img class="mt-1 mr-1"
+														src="<c:url value='/resources/img/eyes.png'/>" width="15"
+														height="15">
+													<h6 class="m-0 font-weight-bold">
+														<small>${item.HIT_CNT }</small>
+													</h6>
+												</div>
+											</div>
+
 										</div>
-										<p>${item.CONTENTS }</p>
-										<a target="_blank" rel="nofollow" href="https://undraw.co/">더
-											보러가기 &rarr;</a>
+										<div class="card-body">
+											<div class="text-center">
+												<img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+													style="width: 25rem;" src="img/undraw_posting_photo.svg"
+													alt="">
+											</div>
+											<p>${item.CONTENTS }...</p>
+											<a href="viewDetail.do?IDX=${item.IDX }">더 보러가기 &rarr;</a>
+											<div class="mt-4 text-center small">
+												<span class="mr-2"> <i
+													class="fas fa-circle text-primary"></i> Direct
+												</span> <span class="mr-2"> <i
+													class="fas fa-circle text-success"></i> Social
+												</span> <span class="mr-2"> <i
+													class="fas fa-circle text-info"></i> Referral
+												</span>
+											</div>
+										</div>
 									</div>
 								</div>
+
 							</c:forEach>
 						</div>
 					</div>
 
 				</div>
 
-				<button type="button" class="btn btn-warning btn-circle btn-lg"
+				<button type="button" class="btn btn-secondary btn-circle btn-lg"
 					id="upBTN">UP</button>
 				<!-- /.container-fluid -->
 

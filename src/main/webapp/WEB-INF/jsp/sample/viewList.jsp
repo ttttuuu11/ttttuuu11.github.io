@@ -116,7 +116,8 @@
 								var cIdx = $("#CATEGORY_IDX").val()
 
 								// 4. ajax를 이용하여 현재 뿌려진 게시글의 마지막 bno를 서버로 보내어 그 다음 20개의 게시물 데이터를 받아온다.
-								$.ajax({
+								$
+										.ajax({
 											type : 'post', // 요청 method 방식
 											url : 'infiniteScrollDown.do',// 요청할 서버의 url
 											headers : {
@@ -156,12 +157,19 @@
 																				+ "</div>"
 																				+ "<div class="+"'card-body'"+">"
 																				+ "<div class="+"'text-center'"+">"
-																				
+
 																				+ "</div>"
 																				+ "<p>"
 																				+ this.CONTENTS
-																				+ "</p>"
-																				+ "<a target="+"'_blank'"+"rel="+"'nofollow'"+"href="+"'viewDetail?IDX="+this.IDX+"'>더"
+																				+ "...</p>"
+																				+ "<a target="
+																				+ "'_blank'"
+																				+ "rel="
+																				+ "'nofollow'"
+																				+ "href="
+																				+ "'viewDetail?IDX="
+																				+ this.IDX
+																				+ "'>더"
 																				+ "보러가기 &rarr;</a>"
 																				+ "<div class="+"'mt-4 text-center small'"+">"
 																				+ "<span class="+"'mr-2'"+"> <i"
@@ -175,22 +183,25 @@
 																				+ "</div>"
 																				+ "</div>"
 																				+ "</div>"
-																				+"<input type="+"'hidden'"+" class="+"'scrolling'"+" data-bno="+this.IDX+">";
+																				+ "<input type="+"'hidden'"+" class="+"'scrolling'"+" data-bno="+this.IDX+">";
 
 																	});// each
 													// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
 													//$(".listToChange").remove();// 셀렉터 태그를 와 태그값 지운다.                       
-													$(".scrolling:last").after(str);
+													$(".scrolling:last").after(
+															str);
 												}// if : data!=null
 												else { // 9. 만약 서버로 부터 받아온 데이터가 없으면 그냥 아무것도 하지말까..
-													alert("더 불러올 데이터가 없습니다.");
+													console
+															.log("더 불러올 데이터가 없습니다.");
 												}// else
 
 											}// success
 										});// ajax
 
 								// 여기서 class가 listToChange인 것중 가장 처음인 것을 찾아서 그 위치로 이동하자.
-								var position = $(".listToChange:first").offset();// 위치 값
+								var position = $(".listToChange:first")
+										.offset();// 위치 값
 
 								// 이동  위로 부터 position.top px 위치로 스크롤 하는 것이다. 그걸 500ms 동안 애니메이션이 이루어짐.
 								//$('html,body').stop().animate({
@@ -321,6 +332,7 @@
 
 					});// scroll event
 </script>
+
 
 <body id="page-top">
 
@@ -579,22 +591,19 @@
 								src="<c:url value='/resources/img/user.png'/>" width="25"
 								height="25">
 						</a> <!-- Dropdown - User Information --></li>
-
 					</ul>
-
 				</nav>
 				<!-- End of Topbar -->
 
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">NAME</h1>
+						<h1 class="h3 mb-0 text-gray-800">${CATEGORY_NAME}</h1>
 						<a href="viewWrite.do?c=${CATEGORY_IDX }"
-							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">&nbsp&nbsp글쓰기&nbsp&nbsp</a>
+							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">&nbsp;글쓰기&nbsp;</a>
 					</div>
 
 					<hr>
@@ -613,10 +622,20 @@
 
 									<div class="card shadow mb-4">
 										<div class="card-header py-3">
-											<h6 class="m-0 font-weight-bold text-primary">${item.TITLE }<span
-													class="text-danger">[${item.HIT_CNT }]</span>
-											</h6>
-											<input type="hidden" id="IDX" value="${item.IDX }">
+											<div class="row justify-content-between">
+												<h6 class="m-0 ml-3 font-weight-bold text-primary">${item.TITLE }
+												</h6>
+												<input type="hidden" id="IDX" value="${item.IDX }">
+												<div class="row mr-3" style="text-align: left">
+													<img class="mt-1 mr-1"
+														src="<c:url value='/resources/img/eyes.png'/>" width="15"
+														height="15">
+													<h6 class="m-0 font-weight-bold">
+														<small>${item.HIT_CNT }</small>
+													</h6>
+												</div>
+											</div>
+
 										</div>
 										<div class="card-body">
 											<div class="text-center">
@@ -624,9 +643,8 @@
 													style="width: 25rem;" src="img/undraw_posting_photo.svg"
 													alt="">
 											</div>
-											<p>${item.CONTENTS }</p>
-											<a href="viewDetail.do?IDX=${item.IDX }">더
-												보러가기 &rarr;</a>
+											<p>${item.CONTENTS }...</p>
+											<a href="viewDetail.do?IDX=${item.IDX }">더 보러가기 &rarr;</a>
 											<div class="mt-4 text-center small">
 												<span class="mr-2"> <i
 													class="fas fa-circle text-primary"></i> Direct
@@ -716,5 +734,31 @@
 	<script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
+<script>
+
+	window.onload = function(){
+		document.getElementById("");
+	}
+	function Del(Word) {
+		a = Word.indexOf("<");
+		b = Word.indexOf(">");
+		len = Word.length;
+		c = Word.substring(0, a);
+		if (b == -1)
+			b = a;
+		d = Word.substring((b + 1), len);
+		Word = c + d;
+		tagCheck = Word.indexOf("<");
+		if (tagCheck != -1)
+			Word = Del(Word);
+		return Word;
+	}
+	function Check() {
+		ToCheck = document.form.text.value;
+		Checked = Del(ToCheck);
+		document.form.text.value = Checked;
+		return false;
+	}
+</script>
 
 </html>

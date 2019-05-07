@@ -46,4 +46,7 @@ public interface SampleService {
 
 	void addReplyComment(Map<String, Object> map) throws Exception;
 
+	 Map<String, Object> selectCategoryName(Map<String, Object> map) throws Exception;
+
+	 Map<String, Object> countComment(Map<String, Object> map) throws Exception;
 }

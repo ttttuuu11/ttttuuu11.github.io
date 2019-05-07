@@ -131,8 +131,9 @@ public class SampleController {
 				}
 			}
 		}
+		Map<String, Object> categoryName = sampleService.selectCategoryName(commandMap);
 		mv.addObject("listAll", listAll);
-		mv.addObject("CATEGORY_IDX", CATEGORY_IDX.toString());
+		mv.addObject("CATEGORY_NAME", categoryName.get("CATEGORY_NAME"));
 		mv.addObject("sidebarListParentNull", sidebarListParentNull);
 
 		return mv;
@@ -273,8 +274,6 @@ public class SampleController {
 	@RequestMapping(value = "/sample/deleteStudy.do", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> deleteStudy(@RequestBody Map<String, Object> commandMap)
 			throws Exception {
-		log.debug("딜리트 시작 !!");
-		log.debug("스터디 인덱스 값 : "+commandMap.get("STUDY_IDX").toString());
 		commandMap.put("STUDY_IDX", commandMap.get("STUDY_IDX").toString());
 
 		Map<String,Object> studyBoard = sampleService.deleteStudyBoard(commandMap);

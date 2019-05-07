@@ -58,7 +58,10 @@ public class SampleDAO extends AbstractDAO {
 	public Map<String, Object> selectStudyBoardOne(Map<String,Object> map) throws Exception {
 		return (Map<String, Object>) selectOne("sample.selectStudyBoardOne", map);
 	}
-	
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> selectCategoryName(Map<String,Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("sample.selectCategoryName", map);
+	}
 	
 	public void insertCategory(Map<String, Object> map) throws Exception {
 		insert("sample.insertCategory", map);
