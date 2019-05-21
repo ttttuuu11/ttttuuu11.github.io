@@ -3,6 +3,11 @@ package first.sample.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public interface SampleService {
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
 
@@ -49,4 +54,6 @@ public interface SampleService {
 	 Map<String, Object> selectCategoryName(Map<String, Object> map) throws Exception;
 
 	 Map<String, Object> countComment(Map<String, Object> map) throws Exception;
+	 
+	void communityFileUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws Exception;
 }

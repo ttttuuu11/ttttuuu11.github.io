@@ -399,8 +399,6 @@ textarea[readonly] {
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 class="h3 mb-0 text-gray-800">상세보기</h1>
-						<a href="#"
-							class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">&nbsp&nbsp취소&nbsp&nbsp</a>
 					</div>
 					<hr>
 					<!-- Content Row -->
@@ -630,6 +628,10 @@ textarea[readonly] {
 					<!-- Content Row -->
 					<div class="container mt-2">
 						<form role="form" id="commentForm">
+								<input type="hidden" id="r_BOARD_IDX" name="r_BOARD_IDX" value="${boardDetail.IDX }" /> 
+								<input type="hidden" id="r_DEPTH" name="r_DEPTH" value="0" />
+								 <input type="hidden" id="r_PARENT_IDX" name="r_PARENT_IDX" value="0" />
+								 <input type="hidden" id="r_ORDER_IDX" name="r_ORDER_IDX" value="-1" />
 							<div class="row">
 								<div class="col-lg-4 col-md-4">
 									<input type="text" class="form-control" id="NAME" name="NAME"
@@ -648,6 +650,7 @@ textarea[readonly] {
 								<button class="col-md-1 mb-2 btn btn-primary" id="commentBTN"
 									name="commentBTN">등록</button>
 							</div>
+
 						</form>
 					</div>
 

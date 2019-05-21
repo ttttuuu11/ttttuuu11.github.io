@@ -611,10 +611,10 @@
 					<!-- Content Row -->
 					<div class="container-fuild">
 						<input type="hidden" class="scrollLocation">
-						<div class="row listToChange">
+						<div class="row listToChange sortable-container">
 							<!-- listToStart 에서 안에 값 비우고 listTostart를 새로 만듦. -->
 							<c:forEach var="item" items="${listAll }">
-								<div class="col-lg-6 mb-4">
+								<div class="col-lg-6 mb-4 sortable-item">
 									<!-- Page Heading -->
 									<div
 										class="d-sm-flex align-items-center justify-content-between mb-4">

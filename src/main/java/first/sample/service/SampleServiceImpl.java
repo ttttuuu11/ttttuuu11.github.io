@@ -1,13 +1,20 @@
 package first.sample.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import first.sample.dao.CommentDAO;
 import first.sample.dao.SampleDAO;
@@ -143,6 +150,30 @@ public class SampleServiceImpl implements SampleService {
 	@Override
 	public void addReplyComment(Map<String, Object> map) throws Exception {
 		//commentDAO.addReplyComment(map);
+	}
+	
+	@SuppressWarnings("resource")
+	public void communityFileUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws Exception {
+		OutputStream out = null;
+		PrintWriter printWriter = null;	
+		String fileName = file.getOriginalFilename();
+		byte[] bytes = file.getBytes();
+		String FILE_URL = "D:/workspace/first/src/main/webapp/imageUpload/";
+		String uploadPath = FILE_URL + fileName;
+		
+		System.out.println(uploadPath);
+		out = new FileOutputStream(new File(uploadPath));
+		out.write(bytes);
+		String callback = request.getParameter("CKEditorFuncNum");
+		printWriter = response.getWriter();
+		String fileUrl = "/first/fileUpload/" + fileName;
+		printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
+	               + callback
+	               + ",'"
+	               + fileUrl
+	               + "','파일을 업로드 하였습니다.'"
+	               + ")</script>");
+	       printWriter.flush();
 	}
 
 }

@@ -102,7 +102,7 @@ public class SampleController {
 		sampleService.insertComment(commandMap.getMap());
 		List<Map<String, Object>> commentList = sampleService.selectCommentList(commandMap.getMap());
 		Map<String, Object> boardDetail = sampleService.selectBoardDetail(commandMap.getMap());
-		mv.addObject("commentList",commentList);
+		mv.addObject("commentList", commentList);
 		mv.addObject("boardDetail", boardDetail);
 		mv.addObject("IDX", IDX);
 		return mv;
@@ -117,6 +117,8 @@ public class SampleController {
 		List<Map<String, Object>> listAll = sampleService.selectBoardListAll(commandMap);
 		List<Map<String, Object>> sidebarListParentNull = sampleService.selectSidebarListParentNull(commandMap);
 		int index = 0;
+		
+		//카테고리
 		for (Map<String, Object> map : sidebarListParentNull) {
 			for (Map.Entry<String, Object> entry : map.entrySet()) {
 				String key = entry.getKey();
@@ -125,7 +127,6 @@ public class SampleController {
 					List<Map<String, Object>> sidebarListChild = sampleService.selectSidebarListChild(value);
 					String tempName = "sidebarListChild" + index;
 					mv.addObject(tempName, sidebarListChild);
-					// sidebarListChild length 받아보기
 					index = index + 1;
 
 				}
@@ -184,7 +185,7 @@ public class SampleController {
 		Map<String, Object> boardDetail = sampleService.selectBoardDetail(commandMap);
 		mv.addObject("boardDetail", boardDetail);
 		mv.addObject("IDX", IDX);
-		mv.addObject("commentList",commentList);
+		mv.addObject("commentList", commentList);
 		return mv;
 	}
 
@@ -270,13 +271,12 @@ public class SampleController {
 		sampleService.deleteBoard(commandMap.getMap());
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "/sample/deleteStudy.do", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> deleteStudy(@RequestBody Map<String, Object> commandMap)
-			throws Exception {
+	public @ResponseBody Map<String, Object> deleteStudy(@RequestBody Map<String, Object> commandMap) throws Exception {
 		commandMap.put("STUDY_IDX", commandMap.get("STUDY_IDX").toString());
 
-		Map<String,Object> studyBoard = sampleService.deleteStudyBoard(commandMap);
+		Map<String, Object> studyBoard = sampleService.deleteStudyBoard(commandMap);
 		return studyBoard;
 	}
 
@@ -344,6 +344,19 @@ public class SampleController {
 		}
 
 		return;
+	}
+
+	@RequestMapping(value = "/sample/fileUpload.do", method = RequestMethod.POST)
+	public void communityFileUpload(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam MultipartFile upload) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset-utf-8");
+		try {
+			sampleService.communityFileUpload(request, response, upload);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

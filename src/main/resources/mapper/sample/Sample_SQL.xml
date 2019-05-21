@@ -79,7 +79,7 @@
 	<insert id="insertComment" parameterType="hashmap"> 
 		<![CDATA[ 
 		INSERT INTO TB_COMMENT(BOARD_IDX,PARENT_IDX,DEPTH,ORDER_IDX,NAME,PW,CONTENTS,DEL_GB,CREA_DTM)
-		VALUES(#{IDX},#{PARENT_IDX},#{DEPTH},#{ORDER_IDX},#{NAME},#{PW},#{COMMENT},'N',SYSDATE());
+		VALUES(#{IDX},#{r_PARENT_IDX},#{r_DEPTH},#{r_ORDER_IDX},#{NAME},#{PW},#{COMMENT},'N',SYSDATE());
 		]]>
 	</insert>
 	<update id="updateHitCnt" parameterType="hashmap"> <![CDATA[ UPDATE TB_BOARD SET HIT_CNT = ifnull(HIT_CNT, 0) + 1 WHERE IDX = #{IDX} 	]]>
