@@ -130,8 +130,6 @@ public class SampleServiceImpl implements SampleService {
 	}
 	@Override
 	public Map<String, Object> deleteStudyBoard(Map<String, Object> map) throws Exception {
-		log.debug("딜리트 했음!! 했다고 !!!"+map.get("STUDY_IDX"));
-
 		sampleDAO.deleteStudyBoard(map);
 		Map<String, Object> resultMap = sampleDAO.selectStudyBoardOne(map);
 		return resultMap;

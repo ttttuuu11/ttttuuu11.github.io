@@ -579,7 +579,6 @@
 								class="badge badge-danger badge-counter">7</span>
 						</a> <!-- Dropdown - Messages --></li>
 
-						<div class="topbar-divider d-none d-sm-block"></div>
 
 						<!-- Nav Item - User Information -->
 						<li class="nav-item dropdown no-arrow"><a
@@ -611,7 +610,8 @@
 					<!-- Content Row -->
 					<div class="container-fuild">
 						<input type="hidden" class="scrollLocation">
-						<div class="row listToChange sortable-container">
+						<!-- card-columns -->
+						<div class="row listToChange sortable-container ">
 							<!-- listToStart 에서 안에 값 비우고 listTostart를 새로 만듦. -->
 							<c:forEach var="item" items="${listAll }">
 								<div class="col-lg-6 mb-4 sortable-item">
@@ -735,8 +735,7 @@
 
 </body>
 <script>
-
-	window.onload = function(){
+	window.onload = function() {
 		document.getElementById("");
 	}
 	function Del(Word) {
