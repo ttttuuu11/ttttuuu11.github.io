@@ -704,14 +704,8 @@
 						</div>
 					</div>
 					<hr>
-
 					<!-- Content Row -->
-
 					<div class="row">
-
-
-
-
 						<!-- Area Chart -->
 						<div class="col-xl-8 col-lg-7">
 							<div class="card shadow mb-4">
@@ -764,8 +758,9 @@
 										<p>
 											<small>개발자를 응원해주세요</small>
 										</p>
-										<button type="button" class="btn btn-warning">Start
-											Kakao Pay</button>
+										<form action="/first/sample/kakaoPay" method="post">
+											<input type="submit" class="btn btn-warning" value="Start Kakao Pay">
+										</form>
 									</div>
 									<div class="mt-2 text-center small">
 										<span class="mr-2"> <i

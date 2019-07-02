@@ -37,8 +37,9 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	<bean
 		class="org.springframework.web.servlet.view.BeanNameViewResolver"
 		p:order="0" />
-	<bean id="jsonView"
+	<!-- <bean id="jsonView"
 		class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+	 -->
 	<bean
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		p:order="1"
