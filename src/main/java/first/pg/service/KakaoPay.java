@@ -42,7 +42,7 @@ public class KakaoPay {
         params.add("partner_user_id", "gorany");
         params.add("item_name", "개발자 후원");
         params.add("quantity", "1");
-        params.add("total_amount", "2100");
+        params.add("total_amount", "1100");
         params.add("tax_free_amount", "100");
         params.add("approval_url", "http://localhost:8081/kakaoPaySuccess");
         params.add("cancel_url", "http://localhost:8081/kakaoPayCancel");

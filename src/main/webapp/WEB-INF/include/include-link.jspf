@@ -5,13 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="<c:url value='/js/jquery.min.js'/>"></script>
-<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
-<link rel="stylesheet" href="<c:url value='/css/jquery-ui.min.css'/>">
-<link rel="stylesheet" href="<c:url value='/css/bootstrap.min1.css'/>">
-<script src="<c:url value='/js/bootstrap.min.js'/>"></script>
-<script src="<c:url value='/js/anime.min.js'/>"></script>
-<script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>
+<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
+<script src="<c:url value='/resources/js/jquery-ui.min.js'/>"></script>
+<link rel="stylesheet" href="<c:url value='/resources/css/jquery-ui.min.css'/>">
+<link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min1.css'/>">
+<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/resources/js/anime.min.js'/>"></script>
+<script src="<c:url value='/resources/ckeditor/ckeditor.js'/>"></script>
 </head>
 <body>
 
