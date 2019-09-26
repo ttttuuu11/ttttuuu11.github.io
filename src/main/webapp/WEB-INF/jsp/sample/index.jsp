@@ -93,8 +93,7 @@
 			id="accordionSidebar">
 
 			<!-- Sidebar - Brand -->
-			<a
-				class="sidebar-brand d-flex align-items-center justify-content-center"
+			<a class="sidebar-brand d-flex align-items-center justify-content-center"
 				href="iopenIndex.do">
 				<div class="sidebar-brand-icon rotate-n-15">
 					<i class="fas fa-laugh-wink"></i>
@@ -104,16 +103,10 @@
 				</div>
 			</a>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
-
-			<!-- Nav Item - Dashboard -->
 			<li class="nav-item active"><a class="nav-link"
 				href="index.html"> <span>학습 내용</span></a></li>
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+			
 
-			<!-- Heading -->
 			<div class="sidebar-heading">CATEGORY</div>
 
 			<!-- Nav Item - Pages Collapse Menu -->
@@ -148,9 +141,6 @@
 			<li class="nav-item"><a class="nav-link" href="tables.html">
 					<span>Tables</span>
 			</a></li>
-
-			<!-- Divider -->
-			<hr class="sidebar-divider d-none d-md-block">
 
 			<!-- Sidebar Toggler (Sidebar) -->
 			<div class="text-center d-none d-md-inline">
@@ -304,17 +294,13 @@
 							</div>
 						</div>
 					</form>
-
-					<!-- Topbar Navbar -->
 					<ul class="navbar-nav ml-auto">
-
-						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
 						<li class="nav-item dropdown no-arrow d-sm-none"><a
 							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
 							role="button" data-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false"> <img src="/img/bell.png" width="25"
 								height="25">
-						</a> <!-- Dropdown - Messages -->
+						</a> 
 							<div
 								class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
 								aria-labelledby="searchDropdown">
@@ -331,7 +317,8 @@
 								</form>
 							</div></li>
 
-						<!-- Nav Item - Alerts -->
+
+						<!-- Dropdown - Alerts -->
 						<li class="nav-item dropdown no-arrow mx-1"><a
 							class="nav-link dropdown-toggle " href="#" id="alertsDropdown"
 							role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -339,7 +326,7 @@
 								src="<c:url value='/resources/img/bell.png'/>" width="25"
 								height="25"></i> <!-- Counter - Alerts --> <span
 								class="badge badge-danger badge-counter">3+</span>
-						</a> <!-- Dropdown - Alerts -->
+						</a> 
 							<ul class="dropdown-menu">
 								<li class="dropdown_list"><a href="#">3-1번 메뉴</a></li>
 								<li class="divider"></li>
@@ -347,7 +334,6 @@
 								<li class="dropdown_list"><a href="#">3-4번 메뉴</a></li>
 							</ul></li>
 
-						<!-- Nav Item - Messages -->
 						<li class="nav-item dropdown no-arrow mx-1"><a
 							class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
 							role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -355,7 +341,7 @@
 									src="<c:url value='/resources/img/mail.png'/>" width="25"
 									height="25"></i> <!-- Counter - Messages --> <span
 								class="badge badge-danger badge-counter">7</span>
-						</a> <!-- Dropdown - Messages --></li>
+						</a> </li>
 
 						<div class="topbar-divider d-none d-sm-block"></div>
 
@@ -368,7 +354,7 @@
 									Sumin</span> <img class="img-profile rounded-circle"
 								src="<c:url value='/resources/img/user.png'/>" width="25"
 								height="25">
-						</a> <!-- Dropdown - User Information --></li>
+						</a> </li>
 
 					</ul>
 
@@ -923,13 +909,8 @@
 					</div>
 				</div>
 			</footer>
-			<!-- End of Footer -->
-
 		</div>
-		<!-- End of Content Wrapper -->
-
 	</div>
-	<!-- End of Page Wrapper -->
 
 	<!-- Scroll to Top Button-->
 	<a class="scroll-to-top rounded" href="#page-top"> <i
@@ -969,13 +950,7 @@
 	<!-- Custom scripts for all pages-->
 	<script src="js/sb-admin-2.min.js"></script>
 
-	<!-- Page level plugins -->
-	<script src="vendor/chart.js/Chart.min.js"></script>
-
-	<!-- Page level custom scripts -->
-	<script src="js/demo/chart-area-demo.js"></script>
-	<script src="js/demo/chart-pie-demo.js"></script>
-
+	
 </body>
 
 </html>
